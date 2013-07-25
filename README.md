@@ -1,4 +1,4 @@
 algorithms
 ==========
 
-A place for me to learn algorithms
+A playground for me to learn and practice algorithms.
