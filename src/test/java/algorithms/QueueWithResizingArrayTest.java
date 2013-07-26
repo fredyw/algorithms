@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class QueueWithLinkedListTest {
+public class QueueWithResizingArrayTest {
     @Test
     public void test() {
-        QueueWithLinkedList<Integer> queue = new QueueWithLinkedList<>();
+        QueueWithResizingArray<Integer> queue = new QueueWithResizingArray<>();
         queue.enqueue(1);
         queue.enqueue(2);
         queue.enqueue(3);

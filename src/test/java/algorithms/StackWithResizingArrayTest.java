@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class StackWithLinkedListTest {
+public class StackWithResizingArrayTest {
+
     @Test
     public void test() {
-        StackWithLinkedList<Integer> stack = new StackWithLinkedList<>();
+        StackWithResizingArray<Integer> stack = new StackWithResizingArray<>();
         stack.push(1);
         stack.push(2);
         stack.push(3);

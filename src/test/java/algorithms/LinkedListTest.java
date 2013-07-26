@@ -16,6 +16,7 @@ public class LinkedListTest {
         assertEquals(Integer.valueOf(1), ll.removeFront());
         assertEquals(Integer.valueOf(3), ll.removeFront());
         assertEquals(Integer.valueOf(4), ll.removeFront());
+        assertNull(ll.removeFront());
     }
     
     @Test
@@ -29,5 +30,6 @@ public class LinkedListTest {
         assertEquals(Integer.valueOf(3), ll.removeFront());
         assertEquals(Integer.valueOf(1), ll.removeFront());
         assertEquals(Integer.valueOf(2), ll.removeFront());
+        assertNull(ll.removeFront());
     }
 }

@@ -25,6 +25,9 @@ public class LinkedList<T> {
     }
     
     public T removeFront() {
+        if (first == null) {
+            return null;
+        }
         T t = first.item;
         first = first.next;
         return t;
