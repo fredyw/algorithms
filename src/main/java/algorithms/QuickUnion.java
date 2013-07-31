@@ -3,7 +3,7 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuickFind {
+public class QuickUnion {
     private Map<String, String> map = new HashMap<>();
     
     public void union(String a, String b) {
@@ -13,18 +13,21 @@ public class QuickFind {
         if (!map.containsKey(b)) {
             map.put(b, b);
         }
-        if (!connected(a, b)) {
-            String value = map.get(a);
-            for (Map.Entry<String, String> e : map.entrySet()) {
-                if (e.getValue().equals(value)) {
-                    map.put(e.getKey(), map.get(b));
-                }
-            }
+        String aVal = find(a);
+        String bVal = find(b);
+        if (!aVal.equals(bVal)) {
+            map.put(aVal, bVal);
         }
     }
     
     private String find(String a) {
-        return map.get(a);
+        String key = a;
+        String value = map.get(key);
+        while (!key.equals(value)) {
+            key = value;
+            value = map.get(key);
+        }
+        return value;
     }
     
     public boolean connected(String a, String b) {
