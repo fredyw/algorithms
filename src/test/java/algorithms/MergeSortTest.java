@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class InsertionSortTest {
+public class MergeSortTest {
     @Test
     public void testSort() {
         Integer[] array = new Integer[] {10, 1, 4, 2, 6, 7, 3, 5, 8, 9};
-        InsertionSort.sort(array);
+        MergeSort.sort(array);
         assertEquals("1 2 3 4 5 6 7 8 9 10", join(array, " "));
     }
     
@@ -21,5 +21,16 @@ public class InsertionSortTest {
             }
         }
         return sb.toString();
+    }
+    
+    @Test
+    public void testMerge() {
+        Integer[] a = new Integer[]{-1, 3, 5, 6, 7, 2, 4, 8, 9, -9};
+        MergeSort.merge(a, 1, 4, 8);
+        assertEquals("-1 2 3 4 5 6 7 8 9 -9", join(a, " "));
+        
+        a = new Integer[]{-1, 2, 4, 8, 9, 3, 5, 6, 7, -9};
+        MergeSort.merge(a, 1, 4, 8);
+        assertEquals("-1 2 3 4 5 6 7 8 9 -9", join(a, " "));
     }
 }
