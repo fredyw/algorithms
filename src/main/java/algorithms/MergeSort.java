@@ -16,7 +16,7 @@ public class MergeSort {
     }
     
     @SuppressWarnings("unchecked")
-    public static <T extends Object & Comparable<T>> void merge(T[] array,
+    static <T extends Object & Comparable<T>> void merge(T[] array,
         int lo, int mid, int hi) {
         T[] aux = (T[]) new Object[hi-lo+1];
         for (int i = lo, j = 0; i <= hi; i++, j++) {
