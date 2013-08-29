@@ -27,6 +27,8 @@ public class BinarySearchTreeTest {
         assertEquals(new Integer(7), bst.get("f"));
         assertEquals(new Integer(8), bst.get("g"));
         
+        assertEquals("[4, 30, 7, 1]", bst.get("c", "f").toString());
+        
         assertEquals(8, bst.getSize());
     }
 }
