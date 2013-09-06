@@ -3,18 +3,24 @@ package algorithms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BinarySearchTree<Key extends Comparable<Key>, Value> {
+public class BalancedSearchTree<Key extends Comparable<Key>, Value> {
+    private static enum Color {
+        RED, BLACK
+    }
+    
     private class Node {
         private int size;
         private Node left;
         private Node right;
         private Key key;
         private Value value;
+        private Color color;
         
-        public Node(int size, Key key, Value value) {
+        public Node(int size, Key key, Value value, Color color) {
             this.size = size;
             this.key = key;
             this.value = value;
+            this.color = color;
         }
     }
     
@@ -22,11 +28,48 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     
     public void put(Key key, Value value) {
         root = put(root, key, value);
+        root.color = Color.BLACK;
+    }
+    
+    private Node flipColors(Node node) {
+        node.color = Color.RED;
+        node.left.color = Color.BLACK;
+        node.right.color = Color.BLACK;
+        return node;
+    }
+    
+    private Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = h.color;
+        h.color = Color.RED;
+        x.size = h.size;
+        h.size = 1 + getSize(h.left) + getSize(h.right);
+        return x;
+    }
+    
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = Color.RED;
+        x.size = h.size;
+        h.size = 1 + getSize(h.left) + getSize(h.right);
+        return x;
+    }
+    
+    private boolean isRed(Node node) {
+        if (node == null) {
+            return false;
+        }
+        return node.color == Color.RED;
     }
     
     private Node put(Node node, Key key, Value value) {
         if (node == null) {
-            return new Node(1, key, value);
+            return new Node(1, key, value, Color.RED);
         }
         if (key.compareTo(node.key) < 0) {
             node.left = put(node.left, key, value);
@@ -34,6 +77,16 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             node.right = put(node.right, key, value);
         } else {
             node.value = value; // replace the old value
+        }
+        
+        if (isRed(node.right) && !isRed(node.left)) {
+            node = rotateLeft(node);
+        }
+        if (isRed(node.left) && isRed(node.left.left)) {
+            node = rotateRight(node);
+        }
+        if (isRed(node.left) && isRed(node.right)) {
+            node = flipColors(node);
         }
         node.size = getSize(node.left) + getSize(node.right) + 1;
         return node;
