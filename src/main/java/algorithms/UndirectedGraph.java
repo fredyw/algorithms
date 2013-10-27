@@ -40,11 +40,11 @@ public class UndirectedGraph<T> {
         }
     }
     
-    public static class DepthFirstSearch<T> {
+    public static class PathFinderDFS<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, T> edgeTo = new HashMap<>();
         
-        public DepthFirstSearch(UndirectedGraph<T> graph, T source) {
+        public PathFinderDFS(UndirectedGraph<T> graph, T source) {
             dfs(graph, source);
         }
         
@@ -77,11 +77,11 @@ public class UndirectedGraph<T> {
         }
     }
     
-    public static class BreadthFirstSearch<T> {
-        Set<T> marked = new HashSet<>();
+    public static class PathFinderBFS<T> {
+        private Set<T> marked = new HashSet<>();
         private Map<T, T> edgeTo = new HashMap<>();
         
-        public BreadthFirstSearch(UndirectedGraph<T> graph, T source) {
+        public PathFinderBFS(UndirectedGraph<T> graph, T source) {
             bfs(graph, source);
         }
         
@@ -120,6 +120,48 @@ public class UndirectedGraph<T> {
                 t = edgeTo.get(t);
             }
             return paths;
+        }
+    }
+    
+    public static class ConnectedComponentDFS<T> {
+        private Set<T> marked = new HashSet<>();
+        private Map<T, Integer> groups = new HashMap<>();
+        private Map<Integer, List<T>> connectedComponents = new HashMap<>(); 
+        private int group;
+        
+        public ConnectedComponentDFS(UndirectedGraph<T> graph) {
+            for (T t : graph.vertices.keySet()) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t);
+                    group++;
+                }
+            }
+        }
+        
+        private void dfs(UndirectedGraph<T> graph, T source) {
+            marked.add(source);
+            groups.put(source, group);
+            if (!connectedComponents.containsKey(group)) {
+                connectedComponents.put(group, new ArrayList<T>());
+            }
+            connectedComponents.get(group).add(source);
+            for (T t : graph.adjacent(source)) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t);
+                }
+            }
+        }
+        
+        public boolean connected(T node1, T node2) {
+            return groups.get(node1) == groups.get(node2);
+        }
+        
+        public List<List<T>> getConnectedComponents() {
+            List<List<T>> result = new ArrayList<>();
+            for (int i = 0; i < group; i++) {
+                result.add(connectedComponents.get(i));
+            }
+            return result;
         }
     }
 }
