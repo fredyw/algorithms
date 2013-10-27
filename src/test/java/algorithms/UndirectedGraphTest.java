@@ -8,6 +8,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import algorithms.UndirectedGraph.ConnectedComponentDFS;
+import algorithms.UndirectedGraph.CycleDetector;
 import algorithms.UndirectedGraph.PathFinderBFS;
 import algorithms.UndirectedGraph.PathFinderDFS;
 
@@ -107,5 +108,25 @@ public class UndirectedGraphTest {
         assertEquals("[0, 1, 2, 5, 3, 4, 6]", cc.get(0).toString());
         assertEquals("[7, 8]", cc.get(1).toString());
         assertEquals("[9, 10, 11, 12]", cc.get(2).toString());
+    }
+    
+    @Test
+    public void testCycleDetector() {
+        UndirectedGraph<Integer> graph = new UndirectedGraph<>();
+        graph.add(1, 2);
+        graph.add(2, 3);
+        graph.add(4, 1);
+        graph.add(5, 3);
+        graph.add(6, 1);
+        graph.add(3, 7);
+        CycleDetector<Integer> cd = new CycleDetector<>(graph);
+        assertFalse(cd.hasCycle());
+        
+        graph = new UndirectedGraph<>();
+        graph.add(1, 2);
+        graph.add(1, 3);
+        graph.add(3, 2);
+        cd = new CycleDetector<>(graph);
+        assertTrue(cd.hasCycle());
     }
 }

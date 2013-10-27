@@ -164,4 +164,34 @@ public class UndirectedGraph<T> {
             return result;
         }
     }
+    
+    public static class CycleDetector<T> {
+        private boolean hasCycle = false;
+        private Set<T> marked = new HashSet<>();
+        
+        public CycleDetector(UndirectedGraph<T> graph) {
+            for (T t : graph.vertices.keySet()) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t, t);
+                }
+            }
+        }
+        
+        private void dfs(UndirectedGraph<T> graph, T source, T parent) {
+            marked.add(source);
+            for (T t : graph.adjacent(source)) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t, source);
+                } else {
+                    if (!t.equals(parent)) {
+                        hasCycle = true;
+                    }
+                }
+            }
+        }
+        
+        public boolean hasCycle() {
+            return hasCycle;
+        }
+    }
 }
