@@ -194,4 +194,39 @@ public class UndirectedGraph<T> {
             return hasCycle;
         }
     }
+    
+    public static class BipartiteDetector<T> {
+        private boolean bipartite = true;
+        private Set<T> marked = new HashSet<>();
+        private Map<T, Boolean> map = new HashMap<>();
+        
+        public BipartiteDetector(UndirectedGraph<T> graph) {
+            for (T t : graph.vertices.keySet()) {
+                map.put(t,  false);
+            }
+            for (T t : graph.vertices.keySet()) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t);
+                }
+            }
+        }
+        
+        private void dfs(UndirectedGraph<T> graph, T source) {
+            marked.add(source);
+            for (T t : graph.adjacent(source)) {
+                if (!marked.contains(t)) {
+                    map.put(t, !map.get(source));
+                    dfs(graph, t);
+                } else {
+                    if (map.get(source) == map.get(t)) {
+                        bipartite = false;
+                    }
+                }
+            }
+        }
+        
+        public boolean isBipartitie() {
+            return bipartite;
+        }
+    }
 }

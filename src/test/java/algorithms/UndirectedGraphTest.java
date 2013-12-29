@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import algorithms.UndirectedGraph.BipartiteDetector;
 import algorithms.UndirectedGraph.ConnectedComponentDFS;
 import algorithms.UndirectedGraph.CycleDetector;
 import algorithms.UndirectedGraph.PathFinderBFS;
@@ -128,5 +129,27 @@ public class UndirectedGraphTest {
         graph.add(3, 2);
         cd = new CycleDetector<>(graph);
         assertTrue(cd.hasCycle());
+    }
+    
+    @Test
+    public void testBipartiteDetector() {
+        UndirectedGraph<Integer> graph = new UndirectedGraph<>();
+        graph.add(1, 6);
+        graph.add(2, 6);
+        graph.add(2, 7);
+        graph.add(3, 8);
+        graph.add(3, 9);
+        graph.add(4, 7);
+        graph.add(5, 6);
+        graph.add(5, 9);
+        BipartiteDetector<Integer> bd = new BipartiteDetector<>(graph);
+        assertTrue(bd.isBipartitie());
+        
+        graph = new UndirectedGraph<>();
+        graph.add(1, 2);
+        graph.add(1, 3);
+        graph.add(3, 2);
+        bd = new BipartiteDetector<>(graph);
+        assertFalse(bd.isBipartitie());
     }
 }
