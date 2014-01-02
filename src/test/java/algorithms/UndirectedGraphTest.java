@@ -8,10 +8,10 @@ import java.util.Set;
 import org.junit.Test;
 
 import algorithms.UndirectedGraph.BipartiteDetector;
-import algorithms.UndirectedGraph.ConnectedComponentDFS;
+import algorithms.UndirectedGraph.ConnectedComponent;
 import algorithms.UndirectedGraph.CycleDetector;
-import algorithms.UndirectedGraph.PathFinderBFS;
-import algorithms.UndirectedGraph.PathFinderDFS;
+import algorithms.UndirectedGraph.ShortestPath;
+import algorithms.UndirectedGraph.PathFinder;
 
 public class UndirectedGraphTest {
     @Test
@@ -25,7 +25,7 @@ public class UndirectedGraphTest {
        graph.add(3, 7);
        
        assertEquals(7, graph.getVertices().size());
-       assertNull(graph.adjacent(10));
+       assertTrue(graph.adjacent(10).isEmpty());
        Set<Integer> adj = graph.adjacent(1);
        assertEquals(3, adj.size());
        assertTrue(adj.contains(6));
@@ -40,7 +40,7 @@ public class UndirectedGraphTest {
     }
     
     @Test
-    public void tesPathFinderDFS() {
+    public void tesPathFinder() {
        UndirectedGraph<Integer> graph = new UndirectedGraph<>();
        graph.add(0, 5);
        graph.add(2, 4);
@@ -51,7 +51,7 @@ public class UndirectedGraphTest {
        graph.add(3, 5);
        graph.add(0, 2);
        
-       PathFinderDFS<Integer> dfs = new PathFinderDFS<>(graph, 0);
+       PathFinder<Integer> dfs = new PathFinder<>(graph, 0);
        assertTrue(dfs.hasPathTo(5));
        assertFalse(dfs.hasPathTo(10));
        assertEquals("[5, 3, 2, 1, 0]", dfs.pathTo(5).toString());
@@ -64,7 +64,7 @@ public class UndirectedGraphTest {
     }
     
     @Test
-    public void testPathFinderBFS() {
+    public void testShortestPath() {
        UndirectedGraph<Integer> graph = new UndirectedGraph<>();
        graph.add(0, 5);
        graph.add(2, 4);
@@ -75,7 +75,7 @@ public class UndirectedGraphTest {
        graph.add(3, 5);
        graph.add(0, 2);
        
-       PathFinderBFS<Integer> bfs = new PathFinderBFS<>(graph, 0);
+       ShortestPath<Integer> bfs = new ShortestPath<>(graph, 0);
        assertTrue(bfs.hasPathTo(5));
        assertFalse(bfs.hasPathTo(10));
        assertEquals("[5, 0]", bfs.pathTo(5).toString());
@@ -88,7 +88,7 @@ public class UndirectedGraphTest {
     }
     
     @Test
-    public void testConnectedDFS() {
+    public void testConnectedComponenent() {
         UndirectedGraph<Integer> graph = new UndirectedGraph<>();
         graph.add(0, 6);
         graph.add(0, 2);
@@ -103,7 +103,7 @@ public class UndirectedGraphTest {
         graph.add(9, 11);
         graph.add(9, 12);
         
-        ConnectedComponentDFS<Integer> dfs = new ConnectedComponentDFS<>(graph);
+        ConnectedComponent<Integer> dfs = new ConnectedComponent<>(graph);
         List<List<Integer>> cc = dfs.getConnectedComponents();
         assertEquals(3, cc.size());
         assertEquals("[0, 1, 2, 5, 3, 4, 6]", cc.get(0).toString());

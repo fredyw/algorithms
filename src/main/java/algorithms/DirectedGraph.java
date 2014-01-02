@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class UndirectedGraph<T> {
+public class DirectedGraph<T> {
     private Map<T, Set<T>> vertices = new HashMap<>();
     
     public Set<T> getVertices() {
@@ -30,25 +30,17 @@ public class UndirectedGraph<T> {
         } else {
             vertices.get(node1).add(node2);
         }
-        
-        if (!vertices.containsKey(node2)) {
-            Set<T> newSet = new HashSet<>();
-            newSet.add(node1);
-            vertices.put(node2, newSet);
-        } else {
-            vertices.get(node2).add(node1);
-        }
     }
     
     public static class PathFinder<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, T> edgeTo = new HashMap<>();
         
-        public PathFinder(UndirectedGraph<T> graph, T source) {
+        public PathFinder(DirectedGraph<T> graph, T source) {
             dfs(graph, source);
         }
         
-        private void dfs(UndirectedGraph<T> graph, T source) {
+        private void dfs(DirectedGraph<T> graph, T source) {
             marked.add(source);
             for (T adj : graph.adjacent(source)) {
                 if (!marked.contains(adj)) {
@@ -81,11 +73,11 @@ public class UndirectedGraph<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, T> edgeTo = new HashMap<>();
         
-        public ShortestPath(UndirectedGraph<T> graph, T source) {
+        public ShortestPath(DirectedGraph<T> graph, T source) {
             bfs(graph, source);
         }
         
-        private void bfs(UndirectedGraph<T> graph, T source) {
+        private void bfs(DirectedGraph<T> graph, T source) {
             T s = source;
             LinkedList<T> nodes = new LinkedList<>();
             while (true) {
@@ -123,110 +115,39 @@ public class UndirectedGraph<T> {
         }
     }
     
-    public static class ConnectedComponent<T> {
-        private Set<T> marked = new HashSet<>();
-        private Map<T, Integer> groups = new HashMap<>();
-        private Map<Integer, List<T>> connectedComponents = new HashMap<>(); 
-        private int group;
-        
-        public ConnectedComponent(UndirectedGraph<T> graph) {
-            for (T t : graph.getVertices()) {
-                if (!marked.contains(t)) {
-                    dfs(graph, t);
-                    group++;
-                }
-            }
-        }
-        
-        private void dfs(UndirectedGraph<T> graph, T source) {
-            marked.add(source);
-            groups.put(source, group);
-            if (!connectedComponents.containsKey(group)) {
-                connectedComponents.put(group, new ArrayList<T>());
-            }
-            connectedComponents.get(group).add(source);
-            for (T t : graph.adjacent(source)) {
-                if (!marked.contains(t)) {
-                    dfs(graph, t);
-                }
-            }
-        }
-        
-        public boolean connected(T node1, T node2) {
-            return groups.get(node1) == groups.get(node2);
-        }
-        
-        public List<List<T>> getConnectedComponents() {
-            List<List<T>> result = new ArrayList<>();
-            for (int i = 0; i < group; i++) {
-                result.add(connectedComponents.get(i));
-            }
-            return result;
-        }
-    }
-    
     public static class CycleDetector<T> {
         private boolean hasCycle = false;
         private Set<T> marked = new HashSet<>();
+        private Map<T, Boolean> onStack = new HashMap<>();
         
-        public CycleDetector(UndirectedGraph<T> graph) {
+        public CycleDetector(DirectedGraph<T> graph) {
+            for (T t : graph.getVertices()) {
+                onStack.put(t, false);
+            }
             for (T t : graph.getVertices()) {
                 if (!marked.contains(t)) {
-                    dfs(graph, t, t);
+                    dfs(graph, t);
                 }
             }
         }
         
-        private void dfs(UndirectedGraph<T> graph, T source, T parent) {
+        private void dfs(DirectedGraph<T> graph, T source) {
             marked.add(source);
+            onStack.put(source, true);
             for (T t : graph.adjacent(source)) {
                 if (!marked.contains(t)) {
-                    dfs(graph, t, source);
+                    dfs(graph, t);
                 } else {
-                    if (!t.equals(parent)) {
+                    if (onStack.get(t)) {
                         hasCycle = true;
                     }
                 }
             }
+            onStack.put(source, false);
         }
         
         public boolean hasCycle() {
             return hasCycle;
-        }
-    }
-    
-    public static class BipartiteDetector<T> {
-        private boolean bipartite = true;
-        private Set<T> marked = new HashSet<>();
-        private Map<T, Boolean> map = new HashMap<>();
-        
-        public BipartiteDetector(UndirectedGraph<T> graph) {
-            for (T t : graph.getVertices()) {
-                map.put(t,  false);
-            }
-            for (T t : graph.getVertices()) {
-                if (!marked.contains(t)) {
-                    dfs(graph, t);
-                }
-            }
-        }
-        
-        private void dfs(UndirectedGraph<T> graph, T source) {
-            marked.add(source);
-            for (T t : graph.adjacent(source)) {
-                if (!marked.contains(t)) {
-                    map.put(t, !map.get(source));
-                    dfs(graph, t);
-                } else {
-                    if (map.get(source) == map.get(t)) {
-                        bipartite = false;
-                    }
-                }
-            }
-        }
-        
-        public boolean isBipartitie() {
-            return bipartite;
         }
     }
 }
