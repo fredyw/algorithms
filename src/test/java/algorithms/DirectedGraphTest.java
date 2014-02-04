@@ -9,6 +9,7 @@ import org.junit.Test;
 import algorithms.DirectedGraph.CycleDetector;
 import algorithms.DirectedGraph.PathFinder;
 import algorithms.DirectedGraph.ShortestPath;
+import algorithms.DirectedGraph.TopologicalSort;
 
 public class DirectedGraphTest {
     @Test
@@ -99,5 +100,23 @@ public class DirectedGraphTest {
         graph.add(2, 4);
         cd = new CycleDetector<>(graph);
         assertTrue(cd.hasCycle());
+    }
+    
+    @Test
+    public void testTopologicalSort() {
+        DirectedGraph<Integer> graph = new DirectedGraph<>();
+        graph.add(1, 2);
+        graph.add(1, 3);
+        graph.add(1, 5);
+        graph.add(2, 5);
+        graph.add(2, 6);
+        graph.add(4, 6);
+        graph.add(4, 7);
+        graph.add(5, 7);
+        graph.add(5, 7);
+        graph.add(3, 7);
+        
+        TopologicalSort<Integer> ts = new TopologicalSort<>(graph);
+        assertEquals("[4, 1, 3, 2, 6, 5, 7]", ts.getPaths().toString());
     }
 }

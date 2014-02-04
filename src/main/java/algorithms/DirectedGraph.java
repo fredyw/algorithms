@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class DirectedGraph<T> {
     private Map<T, Set<T>> vertices = new HashMap<>();
@@ -148,6 +149,37 @@ public class DirectedGraph<T> {
         
         public boolean hasCycle() {
             return hasCycle;
+        }
+    }
+    
+    public static class TopologicalSort<T> {
+        private Set<T> marked = new HashSet<>();
+        private Stack<T> paths = new Stack<>();
+        
+        public TopologicalSort(DirectedGraph<T> graph) {
+            for (T v : graph.getVertices()) {
+                if (!marked.contains(v)) {
+                    dfs(graph, v);
+                }
+            }
+        }
+    
+        private void dfs(DirectedGraph<T> graph, T node) {
+            marked.add(node);
+            for (T adj : graph.adjacent(node)) {
+                if (!marked.contains(adj)) {
+                    dfs(graph, adj);
+                }
+            }
+            paths.add(node);
+        }
+        
+        public List<T> getPaths() {
+            List<T> p = new ArrayList<>();
+            while (!paths.isEmpty()) {
+                p.add(paths.pop());
+            }
+            return p;
         }
     }
 }
