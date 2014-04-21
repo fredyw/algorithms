@@ -82,9 +82,6 @@ public class UndirectedWeightedGraph<T> {
             return Double.valueOf(weight).compareTo(((Edge<T>) o).weight);
         }
 
-        /**
-         * {@inheritDoc} 
-         */
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
