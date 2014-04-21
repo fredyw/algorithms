@@ -29,4 +29,9 @@ public class DirectedWeightedGraphTest {
         assertEquals(1, adj.size());
         assertTrue(adj.contains(new Edge<>(3, 7, 0)));
     }
+    
+    @Test
+    public void testShortestPath() {
+        
+    }
 }

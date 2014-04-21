@@ -2,6 +2,7 @@ package algorithms;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,5 +98,23 @@ public class DirectedWeightedGraph<T> {
         } else {
             vertices.get(edge.from()).add(edge);
         }
+    }
+    
+    public static class ShortestPath<T> {
+//        public ShortestPath(DirectedWeightedGraph<T> graph, T source) {
+//            
+//        }
+//        
+//        public double distTo(T target) {
+//            
+//        }
+//        
+//        public boolean hasPathTo(T target) {
+//            
+//        }
+//        
+//        public List<T> pathTo(T target) {
+//            
+//        }
     }
 }
