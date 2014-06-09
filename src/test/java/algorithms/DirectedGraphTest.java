@@ -22,7 +22,7 @@ public class DirectedGraphTest {
         graph.add(6, 1);
         graph.add(3, 7);
         
-        assertEquals(6, graph.getVertices().size());
+        assertEquals(7, graph.getVertices().size());
         assertTrue(graph.adjacent(10).isEmpty());
         Set<Integer> adj = graph.adjacent(1);
         assertEquals(1, adj.size());

@@ -1,13 +1,18 @@
 package algorithms;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class DirectedWeightedGraph<T> {
-    private Map<T, Set<Edge<T>>> vertices = new HashMap<>();
-
+    private Map<T, Set<Edge<T>>> edges = new HashMap<>();
+    private Set<T> vertices = new HashSet<>();
+    
     public static class Edge<T> {
         private double weight;
         private T t1;
@@ -79,41 +84,137 @@ public class DirectedWeightedGraph<T> {
     }
     
     public Set<T> getVertices() {
-        return vertices.keySet();
+        return Collections.unmodifiableSet(vertices);
     }
     
     public Set<Edge<T>> adjacent(T t) {
-        if (!vertices.containsKey(t)) {
+        if (!edges.containsKey(t)) {
             return new HashSet<>();
         }
-        return vertices.get(t);
+        return edges.get(t);
     }
     
     public void add(Edge<T> edge) {
-        if (!vertices.containsKey(edge.from())) {
+        if (!edges.containsKey(edge.from())) {
             Set<Edge<T>> newSet = new HashSet<>();
             newSet.add(edge);
-            vertices.put(edge.from(), newSet);
+            edges.put(edge.from(), newSet);
         } else {
-            vertices.get(edge.from()).add(edge);
+            edges.get(edge.from()).add(edge);
+        }
+        
+        if (!vertices.contains(edge.from())) {
+            vertices.add(edge.from());
+        }
+        
+        if (!vertices.contains(edge.to())) {
+            vertices.add(edge.to());
+        }
+    }
+    
+    private static class DistTo<T> implements Comparable<DistTo<T>> {
+        private T t;
+        private double weight;
+ 
+        public DistTo(T t, double weight) {
+            this.t = t;
+            this.weight = weight;
+        }
+        
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((t == null) ? 0 : t.hashCode());
+            return result;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            DistTo<T> other = (DistTo<T>) obj;
+            if (t == null) {
+                if (other.t != null) {
+                    return false;
+                }
+            } else if (!t.equals(other.t)) {
+                return false;
+            }
+            return true;
+        }
+
+
+        @Override
+        public int compareTo(DistTo<T> d) {
+            return Double.valueOf(weight).compareTo(d.weight);
         }
     }
     
     public static class ShortestPath<T> {
-//        public ShortestPath(DirectedWeightedGraph<T> graph, T source) {
-//            
-//        }
-//        
-//        public double distTo(T target) {
-//            
-//        }
-//        
-//        public boolean hasPathTo(T target) {
-//            
-//        }
-//        
-//        public List<T> pathTo(T target) {
-//            
-//        }
+        private Map<T, Edge<T>> edgeTo = new HashMap<>();
+        private Map<T, Double> distTo = new HashMap<>();
+        private PriorityQueue<DistTo<T>> pq = new PriorityQueue<>();
+        
+        public ShortestPath(DirectedWeightedGraph<T> graph, T source) {
+            for (T t : graph.getVertices()) {
+                distTo.put(t, Double.POSITIVE_INFINITY);
+            }
+            distTo.put(source, 0.0);
+            
+            pq.add(new DistTo<>(source, 0.0));
+            while (!pq.isEmpty()) {
+                relax(graph, pq.remove().t);
+            }
+        }
+        
+        private void relax(DirectedWeightedGraph<T> graph, T from) {
+            for (Edge<T> e : graph.adjacent(from)) {
+                T to = e.to();
+                if (distTo.get(to) > distTo.get(from) + e.weight) {
+                    double newWeight = distTo.get(from) + e.weight;
+                    distTo.put(to, newWeight);
+                    edgeTo.put(to, e);
+                    DistTo<T> dt = new DistTo<>(to, newWeight);
+                    if (pq.contains(dt)) {
+                        pq.remove(dt);
+                    }
+                    pq.add(dt);
+                }
+            }
+        }
+        
+        public double distTo(T target) {
+            if (!hasPathTo(target)) {
+                return 0.0;
+            }
+            return distTo.get(target);
+        }
+        
+        public boolean hasPathTo(T target) {
+            return edgeTo.containsKey(target);
+        }
+        
+        public List<T> pathTo(T target) {
+            List<T> paths = new ArrayList<>();
+            if (!hasPathTo(target)) {
+                return paths;
+            }
+            Edge<T> e = edgeTo.get(target);
+            paths.add(target);
+            paths.add(e.from());
+            while ((e = edgeTo.get(e.from())) != null) {
+                paths.add(e.from());
+            }
+            return paths;
+        }
     }
 }

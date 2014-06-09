@@ -1,6 +1,7 @@
 package algorithms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,26 +11,35 @@ import java.util.Set;
 import java.util.Stack;
 
 public class DirectedGraph<T> {
-    private Map<T, Set<T>> vertices = new HashMap<>();
+    private Map<T, Set<T>> edges = new HashMap<>();
+    private Set<T> vertices = new HashSet<>();
     
     public Set<T> getVertices() {
-        return vertices.keySet();
+        return Collections.unmodifiableSet(vertices);
     }
     
     public Set<T> adjacent(T node) {
-        if (!vertices.containsKey(node)) {
+        if (!edges.containsKey(node)) {
             return new HashSet<>();
         }
-        return vertices.get(node);
+        return edges.get(node);
     }
     
     public void add(T node1, T node2) {
-        if (!vertices.containsKey(node1)) {
+        if (!edges.containsKey(node1)) {
             Set<T> newSet = new HashSet<>();
             newSet.add(node2);
-            vertices.put(node1, newSet);
+            edges.put(node1, newSet);
         } else {
-            vertices.get(node1).add(node2);
+            edges.get(node1).add(node2);
+        }
+        
+        if (!vertices.contains(node1)) {
+            vertices.add(node1);
+        }
+        
+        if (!vertices.contains(node2)) {
+            vertices.add(node2);
         }
     }
     
