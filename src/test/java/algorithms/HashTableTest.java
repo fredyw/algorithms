@@ -18,6 +18,8 @@ public class HashTableTest {
         ht.put("f", 7);
         ht.put("g", 8);
         
+        assertEquals(8, ht.getSize());
+        
         assertEquals(new Integer(1), ht.get("e"));
         assertEquals(new Integer(2), ht.get("b"));
         assertEquals(new Integer(30), ht.get("c"));
@@ -26,8 +28,6 @@ public class HashTableTest {
         assertEquals(new Integer(6), ht.get("h"));
         assertEquals(new Integer(7), ht.get("f"));
         assertEquals(new Integer(8), ht.get("g"));
-        
-        assertEquals(8, ht.getSize());
+        assertNull(ht.get("i"));
     }
-
 }

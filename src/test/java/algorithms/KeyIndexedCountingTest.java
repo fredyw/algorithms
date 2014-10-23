@@ -33,8 +33,25 @@ public class KeyIndexedCountingTest {
         
         KeyIndexedCounting.sort(elements, 6);
         
-        for (Element e : elements) {
-            System.out.println(e);
-        }
+        assertEquals(elements[0], new Element("Harris", 1));
+        assertEquals(elements[1], new Element("Martin", 1));
+        assertEquals(elements[2], new Element("Moore", 1));
+        assertEquals(elements[3], new Element("Anderson", 2));
+        assertEquals(elements[4], new Element("Martinez", 2));
+        assertEquals(elements[5], new Element("Miller", 2));
+        assertEquals(elements[6], new Element("Robinson", 2));
+        assertEquals(elements[7], new Element("White", 2));
+        assertEquals(elements[8], new Element("Brown", 3));
+        assertEquals(elements[9], new Element("Davis", 3));
+        assertEquals(elements[10], new Element("Jackson", 3));
+        assertEquals(elements[11], new Element("Jones", 3));
+        assertEquals(elements[12], new Element("Taylor", 3));
+        assertEquals(elements[13], new Element("Williams", 3));
+        assertEquals(elements[14], new Element("Garcia", 4));
+        assertEquals(elements[15], new Element("Johnson", 4));
+        assertEquals(elements[16], new Element("Smith", 4));
+        assertEquals(elements[17], new Element("Thomas", 4));
+        assertEquals(elements[18], new Element("Thompson", 4));
+        assertEquals(elements[19], new Element("Wilson", 4));
     }
 }
