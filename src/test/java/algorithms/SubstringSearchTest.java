@@ -7,6 +7,7 @@ import org.junit.Test;
 public class SubstringSearchTest {
     @Test
     public void test() {
+        assertEquals(1, SubstringSearch.substring("hel", "hhelo"));
         assertEquals(0, SubstringSearch.substring("hello", "hello world"));
         assertEquals(2, SubstringSearch.substring("llo", "hello world"));
         assertEquals(5, SubstringSearch.substring(" ", "hello world"));
