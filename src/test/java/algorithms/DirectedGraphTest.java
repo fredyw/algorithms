@@ -2,6 +2,7 @@ package algorithms;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import algorithms.DirectedGraph.CycleDetector;
 import algorithms.DirectedGraph.PathFinder;
 import algorithms.DirectedGraph.ShortestPath;
+import algorithms.DirectedGraph.StronglyConnectedComponent;
 import algorithms.DirectedGraph.TopologicalSort;
 
 public class DirectedGraphTest {
@@ -118,5 +120,41 @@ public class DirectedGraphTest {
         
         TopologicalSort<Integer> ts = new TopologicalSort<>(graph);
         assertEquals("[4, 1, 3, 2, 6, 5, 7]", ts.getPaths().toString());
+    }
+    
+    @Test
+    public void testStronglyConnectedComponent() {
+        DirectedGraph<Integer> graph = new DirectedGraph<>();
+        graph.add(0, 1);
+        graph.add(0, 5);
+        graph.add(2, 0);
+        graph.add(2, 3);
+        graph.add(3, 2);
+        graph.add(3, 5);
+        graph.add(4, 2);
+        graph.add(4, 3);
+        graph.add(5, 4);
+        graph.add(6, 0);
+        graph.add(6, 4);
+        graph.add(6, 8);
+        graph.add(6, 9);
+        graph.add(7, 6);
+        graph.add(7, 9);
+        graph.add(8, 6);
+        graph.add(9, 10);
+        graph.add(9, 11);
+        graph.add(10, 12);
+        graph.add(11, 4);
+        graph.add(11, 12);
+        graph.add(12, 9);
+        
+        StronglyConnectedComponent<Integer> scc = new StronglyConnectedComponent<>(graph);
+        List<List<Integer>> groups = scc.getStronglyConnectedComponents();
+        assertEquals(5, groups.size());
+        assertEquals("[1]", groups.get(0).toString());
+        assertEquals("[0, 5, 4, 2, 3]", groups.get(1).toString());
+        assertEquals("[11, 12, 9, 10]", groups.get(2).toString());
+        assertEquals("[6, 8]", groups.get(3).toString());
+        assertEquals("[7]", groups.get(4).toString());
     }
 }

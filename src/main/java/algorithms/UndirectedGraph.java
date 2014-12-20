@@ -127,18 +127,19 @@ public class UndirectedGraph<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, Integer> groups = new HashMap<>();
         private Map<Integer, List<T>> connectedComponents = new HashMap<>(); 
-        private int group;
+        private int numGroups;
         
         public ConnectedComponent(UndirectedGraph<T> graph) {
+            int group = 0;
             for (T t : graph.getVertices()) {
                 if (!marked.contains(t)) {
-                    dfs(graph, t);
-                    group++;
+                    dfs(graph, t, group++);
                 }
             }
+            numGroups = group;
         }
         
-        private void dfs(UndirectedGraph<T> graph, T source) {
+        private void dfs(UndirectedGraph<T> graph, T source, int group) {
             marked.add(source);
             groups.put(source, group);
             if (!connectedComponents.containsKey(group)) {
@@ -147,7 +148,7 @@ public class UndirectedGraph<T> {
             connectedComponents.get(group).add(source);
             for (T t : graph.adjacent(source)) {
                 if (!marked.contains(t)) {
-                    dfs(graph, t);
+                    dfs(graph, t, group);
                 }
             }
         }
@@ -158,7 +159,7 @@ public class UndirectedGraph<T> {
         
         public List<List<T>> getConnectedComponents() {
             List<List<T>> result = new ArrayList<>();
-            for (int i = 0; i < group; i++) {
+            for (int i = 0; i < numGroups; i++) {
                 result.add(connectedComponents.get(i));
             }
             return result;

@@ -192,4 +192,91 @@ public class DirectedGraph<T> {
             return p;
         }
     }
+    
+    public static class StronglyConnectedComponent<T> {
+        private Set<T> marked = new HashSet<>();
+        private Map<T, Integer> groups = new HashMap<>();
+        private Map<Integer, List<T>> connectedComponents = new HashMap<>(); 
+        private int numGroups;
+        
+        public StronglyConnectedComponent(DirectedGraph<T> graph) {
+            DirectedGraph<T> reversedGraph = reverse(graph);
+            int group = 0;
+            for (T t : reversePostOrder(reversedGraph)) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t, group++);
+                }
+            }
+            numGroups = group;
+        }
+        
+        /*
+         * Reverse the direction of the graph
+         */
+        private DirectedGraph<T> reverse(DirectedGraph<T> graph) {
+            DirectedGraph<T> reversedGraph = new DirectedGraph<>();
+            for (T t : graph.getVertices()) {
+                for (T adj : graph.adjacent(t)) {
+                    // reverse the direction
+                    reversedGraph.add(adj, t);
+                }
+            }
+            return reversedGraph;
+        }
+        
+        /*
+         * Gets the vertices in reverse post order
+         */
+        private List<T> reversePostOrder(DirectedGraph<T> graph) {
+            Set<T> reversedMarked = new HashSet<>();
+            Stack<T> reversedVertices = new Stack<>();
+            for (T vertex : graph.getVertices()) {
+                if (!reversedMarked.contains(vertex)) {
+                    reversedDfs(graph, vertex, reversedMarked, reversedVertices);
+                }
+            }
+            List<T> paths = new ArrayList<>();
+            while (!reversedVertices.isEmpty()) {
+                paths.add(reversedVertices.pop());
+            }
+            return paths;
+        }
+        
+        private void reversedDfs(DirectedGraph<T> graph, T source,
+            Set<T> reversedMarked, Stack<T> reversedVertices) {
+            reversedMarked.add(source);
+            for (T adj : graph.adjacent(source)) {
+                if (!reversedMarked.contains(adj)) {
+                    reversedDfs(graph, adj, reversedMarked, reversedVertices);
+                }
+            }
+            reversedVertices.add(source);
+        }
+        
+        private void dfs(DirectedGraph<T> graph, T source, int group) {
+            marked.add(source);
+            groups.put(source, group);
+            if (!connectedComponents.containsKey(group)) {
+                connectedComponents.put(group, new ArrayList<T>());
+            }
+            connectedComponents.get(group).add(source);
+            for (T t : graph.adjacent(source)) {
+                if (!marked.contains(t)) {
+                    dfs(graph, t, group);
+                }
+            }
+        }
+        
+        public boolean stronglyConnected(T node1, T node2) {
+            return groups.get(node1) == groups.get(node2);
+        }
+        
+        public List<List<T>> getStronglyConnectedComponents() {
+            List<List<T>> result = new ArrayList<>();
+            for (int i = 0; i < numGroups; i++) {
+                result.add(connectedComponents.get(i));
+            }
+            return result;
+        }
+    }
 }
