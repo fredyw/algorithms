@@ -121,12 +121,15 @@ public class UndirectedWeightedGraph<T> {
         }
     }
     
-    public static class MinimumSpanningTree<T> {
+    /*
+     * MST using Prim's algorithm 
+     */
+    public static class PrimMinimumSpanningTree<T> {
         private Set<T> marked = new HashSet<>();
         private PriorityQueue<Edge<T>> pq = new PriorityQueue<>();
         private List<Edge<T>> mst = new ArrayList<>();
         
-        public MinimumSpanningTree(UndirectedWeightedGraph<T> graph) {
+        public PrimMinimumSpanningTree(UndirectedWeightedGraph<T> graph) {
             if (graph.getVertices().size() == 0) {
                 return;
             }
@@ -156,6 +159,53 @@ public class UndirectedWeightedGraph<T> {
                     pq.add(e);
                 }
             }
+        }
+        
+        public List<Edge<T>> getPaths() {
+            return mst;
+        }
+        
+        public double getWeight() {
+            double weight = 0;
+            for (Edge<T> e : mst) {
+                weight += e.getWeight();
+            }
+            return weight;
+        }
+    }
+    
+    /*
+     * MST using Kruska's algorithm
+     */
+    public static class KruskalMinimumSpanningTree<T> {
+        private PriorityQueue<Edge<T>> pq = new PriorityQueue<>();
+        private List<Edge<T>> mst = new ArrayList<>();
+
+        public KruskalMinimumSpanningTree(UndirectedWeightedGraph<T> graph) {
+            Set<Edge<T>> edges = getEdges(graph);
+            for (Edge<T> edge : edges) {
+                pq.add(edge);
+            }
+            
+            QuickFind<T> quickFind = new QuickFind<>();
+            while (!pq.isEmpty()) {
+                Edge<T> edge = pq.remove(); // remove the minimum
+                T v = edge.either();
+                T w = edge.other(v);
+                // if not connected, that means there's no cycle
+                if (!quickFind.connected(v, w)) {
+                    mst.add(edge);
+                    quickFind.union(v, w);
+                }
+            }
+        }
+        
+        private Set<Edge<T>> getEdges(UndirectedWeightedGraph<T> graph) {
+            Set<Edge<T>> edges = new HashSet<>();
+            for (T vertex : graph.getVertices()) {
+                edges.addAll(graph.adjacent(vertex));
+            }
+            return edges;
         }
         
         public List<Edge<T>> getPaths() {
