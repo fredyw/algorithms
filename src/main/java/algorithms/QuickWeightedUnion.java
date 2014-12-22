@@ -40,6 +40,11 @@ public class QuickWeightedUnion<T> {
     }
     
     public boolean connected(T a, T b) {
-        return find(a).equals(find(b));
+        T x = find(a);
+        T y = find(b);
+        if (x == null || y == null) {
+            return false;
+        }
+        return x.equals(y);
     }
 }

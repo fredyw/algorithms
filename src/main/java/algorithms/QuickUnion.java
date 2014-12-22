@@ -31,6 +31,11 @@ public class QuickUnion<T> {
     }
     
     public boolean connected(T a, T b) {
+        T x = find(a);
+        T y = find(b);
+        if (x == null || y == null) {
+            return false;
+        }
         return find(a).equals(find(b));
     }
 }
