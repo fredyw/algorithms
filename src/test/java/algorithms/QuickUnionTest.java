@@ -7,7 +7,7 @@ import org.junit.Test;
 public class QuickUnionTest {
     @Test
     public void test() {
-        QuickUnion qu = new QuickUnion();
+        QuickUnion<String> qu = new QuickUnion<>();
         qu.union("a", "b");
         qu.union("b", "c");
         qu.union("d", "e");

@@ -7,7 +7,7 @@ import org.junit.Test;
 public class QuickFindTest {
     @Test
     public void test() {
-        QuickFind qf = new QuickFind();
+        QuickFind<String> qf = new QuickFind<>();
         qf.union("a", "b");
         qf.union("b", "c");
         qf.union("d", "e");

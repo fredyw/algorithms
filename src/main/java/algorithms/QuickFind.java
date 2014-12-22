@@ -3,10 +3,10 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuickFind {
-    private Map<String, String> map = new HashMap<>();
+public class QuickFind<T> {
+    private Map<T, T> map = new HashMap<>();
     
-    public void union(String a, String b) {
+    public void union(T a, T b) {
         if (!map.containsKey(a)) {
             map.put(a, a);
         }
@@ -14,8 +14,8 @@ public class QuickFind {
             map.put(b, b);
         }
         if (!connected(a, b)) {
-            String value = map.get(a);
-            for (Map.Entry<String, String> e : map.entrySet()) {
+            T value = map.get(a);
+            for (Map.Entry<T, T> e : map.entrySet()) {
                 if (e.getValue().equals(value)) {
                     map.put(e.getKey(), map.get(b));
                 }
@@ -23,11 +23,11 @@ public class QuickFind {
         }
     }
     
-    private String find(String a) {
+    private T find(T a) {
         return map.get(a);
     }
     
-    public boolean connected(String a, String b) {
+    public boolean connected(T a, T b) {
         return find(a).equals(find(b));
     }
 }

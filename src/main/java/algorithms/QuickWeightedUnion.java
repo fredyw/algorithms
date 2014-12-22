@@ -3,11 +3,11 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuickWeightedUnion {
-    private Map<String, String> map = new HashMap<>();
-    private Map<String, Integer> children = new HashMap<>();
+public class QuickWeightedUnion<T> {
+    private Map<T, T> map = new HashMap<>();
+    private Map<T, Integer> children = new HashMap<>();
     
-    public void union(String a, String b) {
+    public void union(T a, T b) {
         if (!map.containsKey(a)) {
             map.put(a, a);
             children.put(a, 1);
@@ -16,8 +16,8 @@ public class QuickWeightedUnion {
             map.put(b, b);
             children.put(b, 1);
         }
-        String aVal = find(a);
-        String bVal = find(b);
+        T aVal = find(a);
+        T bVal = find(b);
         if (!aVal.equals(bVal)) {
             if (children.get(aVal) > children.get(bVal)) {
                 map.put(bVal, aVal);
@@ -29,9 +29,9 @@ public class QuickWeightedUnion {
         }
     }
     
-    private String find(String a) {
-        String key = a;
-        String value = map.get(key);
+    private T find(T a) {
+        T key = a;
+        T value = map.get(key);
         while (!key.equals(value)) {
             key = value;
             value = map.get(key);
@@ -39,7 +39,7 @@ public class QuickWeightedUnion {
         return value;
     }
     
-    public boolean connected(String a, String b) {
+    public boolean connected(T a, T b) {
         return find(a).equals(find(b));
     }
 }
