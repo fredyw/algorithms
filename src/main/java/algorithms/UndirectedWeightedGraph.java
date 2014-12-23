@@ -187,15 +187,15 @@ public class UndirectedWeightedGraph<T> {
                 pq.add(edge);
             }
             
-            QuickFind<T> quickFind = new QuickFind<>();
+            QuickWeightedUnion<T> unionFind = new QuickWeightedUnion<>();
             while (!pq.isEmpty()) {
                 Edge<T> edge = pq.remove(); // remove the minimum
                 T v = edge.either();
                 T w = edge.other(v);
                 // if not connected, that means there's no cycle
-                if (!quickFind.connected(v, w)) {
+                if (!unionFind.connected(v, w)) {
                     mst.add(edge);
-                    quickFind.union(v, w);
+                    unionFind.union(v, w);
                 }
             }
         }

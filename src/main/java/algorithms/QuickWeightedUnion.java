@@ -35,6 +35,9 @@ public class QuickWeightedUnion<T> {
         while (!key.equals(value)) {
             key = value;
             value = map.get(key);
+            if (key == null) {
+                break;
+            }
         }
         return value;
     }
