@@ -9,6 +9,7 @@ import org.junit.Test;
 import algorithms.UndirectedWeightedGraph.Edge;
 import algorithms.UndirectedWeightedGraph.KruskalMinimumSpanningTree;
 import algorithms.UndirectedWeightedGraph.PrimMinimumSpanningTree;
+import algorithms.UndirectedWeightedGraph.ShortestPath;
 
 public class UndirectedWeightedGraphTest {
     @Test
@@ -88,5 +89,28 @@ public class UndirectedWeightedGraphTest {
             "[0-7 0.16, 2-3 0.17, 1-7 0.19, 0-2 0.26, 5-7 0.28, 4-5 0.35, 6-2 0.4]",
             mst.getPaths().toString());
         assertEquals(1.81, mst.getWeight(), 0.0);
+    }
+    
+    @Test
+    public void testShortestPath() {
+        UndirectedWeightedGraph<Integer> graph = new UndirectedWeightedGraph<>();
+        graph.add(new Edge<>(1, 2, 3));
+        graph.add(new Edge<>(1, 3, 3));
+        graph.add(new Edge<>(2, 3, 1));
+        graph.add(new Edge<>(2, 4, 2));
+        graph.add(new Edge<>(3, 4, 50));
+        
+        ShortestPath<Integer> sp = new ShortestPath<>(graph, 1);
+        assertEquals("[]", sp.pathTo(1).toString());
+        assertEquals(0.0, sp.distTo(1), 0.0);
+        
+        assertEquals("[2, 1]", sp.pathTo(2).toString());
+        assertEquals(3.0, sp.distTo(2), 0.0);
+        
+        assertEquals("[3, 1]", sp.pathTo(3).toString());
+        assertEquals(3.0, sp.distTo(3), 0.0);
+        
+        assertEquals("[4, 2, 1]", sp.pathTo(4).toString());
+        assertEquals(5.0, sp.distTo(4), 0.0);
     }
 }

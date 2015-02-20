@@ -112,54 +112,57 @@ public class DirectedWeightedGraph<T> {
         }
     }
     
-    private static class DistTo<T> implements Comparable<DistTo<T>> {
-        private T t;
-        private double weight;
- 
-        public DistTo(T t, double weight) {
-            this.t = t;
-            this.weight = weight;
-        }
-        
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((t == null) ? 0 : t.hashCode());
-            return result;
-        }
+    /*
+     * Dijkstra's algorithm
+     */
+    public static class ShortestPath<T> {
+        private static class DistTo<T> implements Comparable<DistTo<T>> {
+            private T t;
+            private double weight;
+     
+            public DistTo(T t, double weight) {
+                this.t = t;
+                this.weight = weight;
+            }
+            
+            @Override
+            public int hashCode() {
+                final int prime = 31;
+                int result = 1;
+                result = prime * result + ((t == null) ? 0 : t.hashCode());
+                return result;
+            }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            DistTo<T> other = (DistTo<T>) obj;
-            if (t == null) {
-                if (other.t != null) {
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
                     return false;
                 }
-            } else if (!t.equals(other.t)) {
-                return false;
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                DistTo<T> other = (DistTo<T>) obj;
+                if (t == null) {
+                    if (other.t != null) {
+                        return false;
+                    }
+                } else if (!t.equals(other.t)) {
+                    return false;
+                }
+                return true;
             }
-            return true;
-        }
 
 
-        @Override
-        public int compareTo(DistTo<T> d) {
-            return Double.valueOf(weight).compareTo(d.weight);
+            @Override
+            public int compareTo(DistTo<T> d) {
+                return Double.valueOf(weight).compareTo(d.weight);
+            }
         }
-    }
-    
-    public static class ShortestPath<T> {
+        
         private Map<T, Edge<T>> edgeTo = new HashMap<>();
         private Map<T, Double> distTo = new HashMap<>();
         private PriorityQueue<DistTo<T>> pq = new PriorityQueue<>();

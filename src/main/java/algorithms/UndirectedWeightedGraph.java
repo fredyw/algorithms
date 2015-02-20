@@ -220,4 +220,113 @@ public class UndirectedWeightedGraph<T> {
             return weight;
         }
     }
+    
+    /*
+     * Dijkstra's algorithm
+     */
+    public static class ShortestPath<T> {
+        private static class DistTo<T> implements Comparable<DistTo<T>> {
+            private T t;
+            private double weight;
+     
+            public DistTo(T t, double weight) {
+                this.t = t;
+                this.weight = weight;
+            }
+            
+            @Override
+            public int hashCode() {
+                final int prime = 31;
+                int result = 1;
+                result = prime * result + ((t == null) ? 0 : t.hashCode());
+                return result;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                DistTo<T> other = (DistTo<T>) obj;
+                if (t == null) {
+                    if (other.t != null) {
+                        return false;
+                    }
+                } else if (!t.equals(other.t)) {
+                    return false;
+                }
+                return true;
+            }
+
+
+            @Override
+            public int compareTo(DistTo<T> d) {
+                return Double.valueOf(weight).compareTo(d.weight);
+            }
+        }
+        
+        private Map<T, Edge<T>> edgeTo = new HashMap<>();
+        private Map<T, Double> distTo = new HashMap<>();
+        private PriorityQueue<DistTo<T>> pq = new PriorityQueue<>();
+        
+        public ShortestPath(UndirectedWeightedGraph<T> graph, T source) {
+            for (T t : graph.getVertices()) {
+                distTo.put(t, Double.POSITIVE_INFINITY);
+            }
+            distTo.put(source, 0.0);
+            
+            pq.add(new DistTo<>(source, 0.0));
+            while (!pq.isEmpty()) {
+                relax(graph, pq.remove().t);
+            }
+        }
+        
+        private void relax(UndirectedWeightedGraph<T> graph, T from) {
+            for (Edge<T> e : graph.adjacent(from)) {
+                T to = e.other(e.either());
+                if (distTo.get(to) > distTo.get(from) + e.weight) {
+                    double newWeight = distTo.get(from) + e.weight;
+                    distTo.put(to, newWeight);
+                    edgeTo.put(to, e);
+                    DistTo<T> dt = new DistTo<>(to, newWeight);
+                    if (pq.contains(dt)) {
+                        pq.remove(dt);
+                    }
+                    pq.add(dt);
+                }
+            }
+        }
+        
+        public double distTo(T target) {
+            if (!hasPathTo(target)) {
+                return 0.0;
+            }
+            return distTo.get(target);
+        }
+        
+        public boolean hasPathTo(T target) {
+            return edgeTo.containsKey(target);
+        }
+        
+        public List<T> pathTo(T target) {
+            List<T> paths = new ArrayList<>();
+            if (!hasPathTo(target)) {
+                return paths;
+            }
+            Edge<T> e = edgeTo.get(target);
+            paths.add(target);
+            paths.add(e.either());
+            while ((e = edgeTo.get(e.either())) != null) {
+                paths.add(e.either());
+            }
+            return paths;
+        }
+    }
 }
