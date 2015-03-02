@@ -7,6 +7,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import algorithms.DirectedWeightedGraph.Edge;
+import algorithms.DirectedWeightedGraph.MaximumFlow;
 import algorithms.DirectedWeightedGraph.ShortestPath;
 
 public class DirectedWeightedGraphTest {
@@ -50,5 +51,23 @@ public class DirectedWeightedGraphTest {
         assertEquals(6, sp.distTo(6), 0);
         assertEquals("[]", sp.pathTo(10).toString());
         assertEquals(0, sp.distTo(10), 0);
+    }
+    
+    @Test
+    public void testMaximumFlow() {
+        DirectedWeightedGraph<Integer> graph = new DirectedWeightedGraph<>();
+        graph.add(new Edge<>(0, 1, 16));
+        graph.add(new Edge<>(0, 2, 13));
+        graph.add(new Edge<>(1, 2, 10));
+        graph.add(new Edge<>(2, 1, 4));
+        graph.add(new Edge<>(1, 3, 12));
+        graph.add(new Edge<>(3, 2, 9));
+        graph.add(new Edge<>(2, 4, 14));
+        graph.add(new Edge<>(4, 3, 7));
+        graph.add(new Edge<>(3, 5, 20));
+        graph.add(new Edge<>(4, 5, 4));
+        
+        MaximumFlow<Integer> maxFlow = new MaximumFlow<Integer>(graph, 0, 5);
+        assertEquals(23.0, maxFlow.getMaximumFlow(), 0);
     }
 }

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 
 public class DirectedWeightedGraph<T> {
@@ -17,6 +19,7 @@ public class DirectedWeightedGraph<T> {
         private double weight;
         private T t1;
         private T t2;
+        private double flow;
         
         public Edge(T t1, T t2, double weight) {
             this.t1 = t1;
@@ -34,6 +37,30 @@ public class DirectedWeightedGraph<T> {
         
         public T to() {
             return t2;
+        }
+        
+        public T other(T t) {
+            if (t.equals(t1)) {
+                return t2;
+            }
+            return t1;
+        }
+        
+        public double residualCapacityTo(T vertex) {
+            if (vertex.equals(t1)) {
+                return flow;
+            } else if (vertex.equals(t2)) {
+                return weight - flow;
+            }
+            throw new IllegalArgumentException();
+        }
+        
+        public void addResidualFlowTo(T vertex, double delta) {
+            if (vertex.equals(t1)) {
+                flow -= delta;
+            } else if (vertex.equals(t2)) {
+                flow += delta;
+            }
         }
         
         @Override
@@ -218,6 +245,65 @@ public class DirectedWeightedGraph<T> {
                 paths.add(e.from());
             }
             return paths;
+        }
+    }
+    
+    /*
+     * Ford Fulkerson's algorithm
+     */
+    public static class MaximumFlow<T> {
+        private double maxFlow;
+        private Map<T, Edge<T>> edgeTo = new HashMap<>();
+        private Set<T> marked = new HashSet<>();
+        
+        public MaximumFlow(DirectedWeightedGraph<T> graph, T source, T dest) {
+            while (hasAugmentingPath(graph, source, dest)) {
+                // compute bottleneck capacity
+                double bottle = Double.POSITIVE_INFINITY;
+                for (T v = dest; !v.equals(source); v = edgeTo.get(v).other(v)) {
+                    bottle = Math.min(bottle, edgeTo.get(v).residualCapacityTo(v));
+                }
+
+                // augment flow
+                for (T v = dest; !v.equals(source); v = edgeTo.get(v).other(v)) {
+                    edgeTo.get(v).addResidualFlowTo(v, bottle); 
+                }
+
+                maxFlow += bottle;
+            }
+        }
+        
+        private boolean hasAugmentingPath(DirectedWeightedGraph<T> graph, T source, T dest) {
+            edgeTo = new HashMap<>();
+            marked = new HashSet<>();
+
+            // breadth-first search
+            Queue<T> queue = new LinkedList<>();
+            queue.add(source);
+            marked.add(source);
+            while (!queue.isEmpty() && !marked.contains(dest)) {
+                T v = queue.remove();
+
+                for (Edge<T> e : graph.adjacent(v)) {
+                    T w = e.other(v);
+
+                    // if residual capacity from v to w
+                    if (e.residualCapacityTo(w) > 0) {
+                        if (!marked.contains(w)) {
+                            edgeTo.put(w, e);
+                            marked.add(w);
+                            queue.add(w);
+                        }
+                    }
+                }
+            }
+
+            // is there an augmenting path?
+            return marked.contains(dest);
+        }
+        
+        public double getMaximumFlow() {
+            return maxFlow;
         }
     }
 }
