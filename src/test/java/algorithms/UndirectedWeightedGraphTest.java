@@ -2,8 +2,6 @@ package algorithms;
 
 import static org.junit.Assert.*;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Set;
 
 import org.junit.Test;
@@ -133,24 +131,5 @@ public class UndirectedWeightedGraphTest {
         
         MaximumFlow<Integer> maxFlow = new MaximumFlow<Integer>(graph, 0, 5);
         assertEquals(23.0, maxFlow.getMaximumFlow(), 0);
-    }
-    
-    @Test
-    public void testSpotify() throws Exception {
-        UndirectedWeightedGraph<Integer> graph = new UndirectedWeightedGraph<>();
-        Files.readAllLines(Paths.get("C:/Users/fredy/workspace/java8project/newgraph1.txt"))
-            .stream()
-            .forEach(line -> {
-                if (line.isEmpty()) {
-                    return;
-                }
-                String[] splitLine = line.split("\\s+");
-                graph.add(new Edge<>(
-                    Integer.parseInt(splitLine[0]),
-                    Integer.parseInt(splitLine[1]),
-                    Double.parseDouble(splitLine[2])));
-            });
-        MaximumFlow<Integer> mf = new MaximumFlow<Integer>(graph, 485, 486);
-        System.out.println(mf.getMaximumFlow());
     }
 }
