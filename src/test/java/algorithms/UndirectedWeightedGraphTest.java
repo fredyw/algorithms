@@ -2,12 +2,15 @@ package algorithms;
 
 import static org.junit.Assert.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Set;
 
 import org.junit.Test;
 
 import algorithms.UndirectedWeightedGraph.Edge;
 import algorithms.UndirectedWeightedGraph.KruskalMinimumSpanningTree;
+import algorithms.UndirectedWeightedGraph.MaximumFlow;
 import algorithms.UndirectedWeightedGraph.PrimMinimumSpanningTree;
 import algorithms.UndirectedWeightedGraph.ShortestPath;
 
@@ -112,5 +115,42 @@ public class UndirectedWeightedGraphTest {
         
         assertEquals("[4, 2, 1]", sp.pathTo(4).toString());
         assertEquals(5.0, sp.distTo(4), 0.0);
+    }
+    
+    @Test
+    public void testMaximumFlow() {
+        UndirectedWeightedGraph<Integer> graph = new UndirectedWeightedGraph<>();
+        graph.add(new Edge<>(0, 1, 16));
+        graph.add(new Edge<>(0, 2, 13));
+        graph.add(new Edge<>(1, 2, 10));
+        graph.add(new Edge<>(2, 1, 4));
+        graph.add(new Edge<>(1, 3, 12));
+        graph.add(new Edge<>(3, 2, 9));
+        graph.add(new Edge<>(2, 4, 14));
+        graph.add(new Edge<>(4, 3, 7));
+        graph.add(new Edge<>(3, 5, 20));
+        graph.add(new Edge<>(4, 5, 4));
+        
+        MaximumFlow<Integer> maxFlow = new MaximumFlow<Integer>(graph, 0, 5);
+        assertEquals(23.0, maxFlow.getMaximumFlow(), 0);
+    }
+    
+    @Test
+    public void testSpotify() throws Exception {
+        UndirectedWeightedGraph<Integer> graph = new UndirectedWeightedGraph<>();
+        Files.readAllLines(Paths.get("C:/Users/fredy/workspace/java8project/newgraph1.txt"))
+            .stream()
+            .forEach(line -> {
+                if (line.isEmpty()) {
+                    return;
+                }
+                String[] splitLine = line.split("\\s+");
+                graph.add(new Edge<>(
+                    Integer.parseInt(splitLine[0]),
+                    Integer.parseInt(splitLine[1]),
+                    Double.parseDouble(splitLine[2])));
+            });
+        MaximumFlow<Integer> mf = new MaximumFlow<Integer>(graph, 485, 486);
+        System.out.println(mf.getMaximumFlow());
     }
 }
