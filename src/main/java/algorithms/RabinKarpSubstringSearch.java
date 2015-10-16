@@ -11,13 +11,13 @@ public class RabinKarpSubstringSearch {
         }
         return h;
     }
-    
+
     private static long hash(long hashValue, int value) {
         return ((hashValue * R) + value) % Q;
     }
     
     private static long removeLeadingDigit(int size) {
-        long value = 0;
+        long value = 1;
         for (int i = 1; i <= size-1; i++) {
             value = (R * value) % Q;
         }
@@ -25,11 +25,17 @@ public class RabinKarpSubstringSearch {
     }
     
     public static int substring(String pattern, String text) {
+        if (pattern.length() > text.length()) {
+            return -1;
+        }
         // this uses Horner's hashing method
         long patternHash = hash(pattern, pattern.length());
-        long textHash = 0;
+        long textHash = hash(text, pattern.length());
+        if (patternHash == textHash) {
+            return 0;
+        }
         long rld = removeLeadingDigit(pattern.length());
-        for (int i = 0; i < text.length(); i++) {
+        for (int i = pattern.length(); i < text.length(); i++) {
             // remove leading digit
             textHash = (textHash + Q - rld * text.charAt(i-pattern.length()) % Q) % Q;
             // add trailing digit
