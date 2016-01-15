@@ -1,17 +1,12 @@
 package algorithms;
 
-import static org.junit.Assert.*;
+import algorithms.DirectedGraph.*;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
-
-import algorithms.DirectedGraph.CycleDetector;
-import algorithms.DirectedGraph.PathFinder;
-import algorithms.DirectedGraph.ShortestPath;
-import algorithms.DirectedGraph.StronglyConnectedComponent;
-import algorithms.DirectedGraph.TopologicalSort;
+import static org.junit.Assert.*;
 
 public class DirectedGraphTest {
     @Test
@@ -114,7 +109,6 @@ public class DirectedGraphTest {
         graph.add(2, 6);
         graph.add(4, 6);
         graph.add(4, 7);
-        graph.add(5, 7);
         graph.add(5, 7);
         graph.add(3, 7);
         
