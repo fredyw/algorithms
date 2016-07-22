@@ -16,7 +16,7 @@ public class QuickSelect {
             if (p == n) {
                 return array[n];
             } else if (p > n) {
-                return select(array, lo, hi - 1, n);
+                return select(array, lo, p - 1, n);
             } else {
                 return select(array, p + 1, hi, n);
             }
