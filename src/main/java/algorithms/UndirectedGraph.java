@@ -86,9 +86,10 @@ public class UndirectedGraph<T> {
         }
 
         private void bfs(UndirectedGraph<T> graph, T source) {
-            T s = source;
             LinkedList<T> nodes = new LinkedList<>();
-            while (true) {
+            nodes.add(source);
+            while (!nodes.isEmpty()) {
+                T s = nodes.removeFirst();
                 marked.add(s);
                 for (T adj : graph.adjacent(s)) {
                     if (!marked.contains(adj)) {
@@ -97,10 +98,6 @@ public class UndirectedGraph<T> {
                         edgeTo.put(adj, s);
                     }
                 }
-                if (nodes.size() == 0) {
-                    break;
-                }
-                s = nodes.removeFirst();
             }
         }
 
