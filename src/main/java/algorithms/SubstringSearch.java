@@ -7,10 +7,10 @@ public class SubstringSearch {
             int j = 0;
             boolean found = true;
             for (j = 0; j < pattern.length(); j++) {
-                if (i+j >= text.length()) {
+                if (i + j >= text.length()) {
                     return -1;
                 }
-                if (text.charAt(i+j) != pattern.charAt(j)) {
+                if (text.charAt(i + j) != pattern.charAt(j)) {
                     found = false;
                     break;
                 }

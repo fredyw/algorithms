@@ -1,8 +1,9 @@
 package algorithms;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class LinkedListTest {
     @Test
@@ -18,7 +19,7 @@ public class LinkedListTest {
         assertEquals(Integer.valueOf(4), ll.removeFront());
         assertNull(ll.removeFront());
     }
-    
+
     @Test
     public void test2() {
         LinkedList<Integer> ll = new LinkedList<Integer>();

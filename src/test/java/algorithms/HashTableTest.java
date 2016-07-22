@@ -1,8 +1,9 @@
 package algorithms;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class HashTableTest {
     @Test
@@ -17,9 +18,9 @@ public class HashTableTest {
         ht.put("h", 6);
         ht.put("f", 7);
         ht.put("g", 8);
-        
+
         assertEquals(8, ht.getSize());
-        
+
         assertEquals(new Integer(1), ht.get("e"));
         assertEquals(new Integer(2), ht.get("b"));
         assertEquals(new Integer(30), ht.get("c"));

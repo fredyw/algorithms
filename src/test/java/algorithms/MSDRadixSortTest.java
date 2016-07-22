@@ -1,13 +1,13 @@
 package algorithms;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class MSDRadixSortTest {
     @Test
     public void testSort() {
-        String[] strings = new String[] {
+        String[] strings = new String[]{
             "4CEF",
             "3BMNO",
             "1ABDE",
@@ -17,7 +17,7 @@ public class MSDRadixSortTest {
             "2ACFM"
         };
         MSDRadixSort.sort(strings, 256);
-        
+
         assertEquals("1ABC", strings[0]);
         assertEquals("1ABDE", strings[1]);
         assertEquals("2ACFM", strings[2]);

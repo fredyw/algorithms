@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class QuickUnion<T> {
     private Map<T, T> map = new HashMap<>();
-    
+
     public void union(T a, T b) {
         if (!map.containsKey(a)) {
             map.put(a, a);
@@ -19,7 +19,7 @@ public class QuickUnion<T> {
             map.put(aVal, bVal);
         }
     }
-    
+
     private T find(T a) {
         T key = a;
         T value = map.get(key);
@@ -29,7 +29,7 @@ public class QuickUnion<T> {
         }
         return value;
     }
-    
+
     public boolean connected(T a, T b) {
         T x = find(a);
         T y = find(b);

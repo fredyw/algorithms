@@ -10,20 +10,20 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         private Node right;
         private Key key;
         private Value value;
-        
+
         public Node(int size, Key key, Value value) {
             this.size = size;
             this.key = key;
             this.value = value;
         }
     }
-    
+
     private Node root;
-    
+
     public void put(Key key, Value value) {
         root = put(root, key, value);
     }
-    
+
     private Node put(Node node, Key key, Value value) {
         if (node == null) {
             return new Node(1, key, value);
@@ -38,7 +38,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         node.size = getSize(node.left) + getSize(node.right) + 1;
         return node;
     }
-    
+
     public Value get(Key key) {
         Node n = get(root, key);
         if (n == null) {
@@ -46,7 +46,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
         return n.value;
     }
-    
+
     private Node get(Node node, Key key) {
         if (node == null) {
             return null;
@@ -58,21 +58,21 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
         return node;
     }
-    
+
     public int getSize() {
         return getSize(root);
     }
-    
+
     private int getSize(Node n) {
         return (n == null) ? 0 : n.size;
     }
-    
+
     public List<Value> get(Key lo, Key hi) {
         List<Value> values = new ArrayList<>();
         get(root, lo, hi, values);
         return values;
     }
-    
+
     private void get(Node node, Key lo, Key hi, List<Value> values) {
         if (node == null) {
             return;

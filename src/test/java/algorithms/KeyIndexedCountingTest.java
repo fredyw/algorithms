@@ -1,10 +1,9 @@
 package algorithms;
 
-import static org.junit.Assert.*;
-
+import algorithms.KeyIndexedCounting.Element;
 import org.junit.Test;
 
-import algorithms.KeyIndexedCounting.Element;
+import static org.junit.Assert.assertEquals;
 
 public class KeyIndexedCountingTest {
     @Test
@@ -30,9 +29,9 @@ public class KeyIndexedCountingTest {
         elements[17] = new Element("White", 2);
         elements[18] = new Element("Williams", 3);
         elements[19] = new Element("Wilson", 4);
-        
+
         KeyIndexedCounting.sort(elements, 6);
-        
+
         assertEquals(elements[0], new Element("Harris", 1));
         assertEquals(elements[1], new Element("Martin", 1));
         assertEquals(elements[2], new Element("Moore", 1));

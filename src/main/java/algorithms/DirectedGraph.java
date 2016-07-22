@@ -13,18 +13,18 @@ import java.util.Stack;
 public class DirectedGraph<T> {
     private Map<T, Set<T>> edges = new HashMap<>();
     private Set<T> vertices = new HashSet<>();
-    
+
     public Set<T> getVertices() {
         return Collections.unmodifiableSet(vertices);
     }
-    
+
     public Set<T> adjacent(T node) {
         if (!edges.containsKey(node)) {
             return new HashSet<>();
         }
         return edges.get(node);
     }
-    
+
     public void add(T node1, T node2) {
         if (!edges.containsKey(node1)) {
             Set<T> newSet = new HashSet<>();
@@ -33,24 +33,24 @@ public class DirectedGraph<T> {
         } else {
             edges.get(node1).add(node2);
         }
-        
+
         if (!vertices.contains(node1)) {
             vertices.add(node1);
         }
-        
+
         if (!vertices.contains(node2)) {
             vertices.add(node2);
         }
     }
-    
+
     public static class PathFinder<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, T> edgeTo = new HashMap<>();
-        
+
         public PathFinder(DirectedGraph<T> graph, T source) {
             dfs(graph, source);
         }
-        
+
         private void dfs(DirectedGraph<T> graph, T source) {
             marked.add(source);
             for (T adj : graph.adjacent(source)) {
@@ -60,11 +60,11 @@ public class DirectedGraph<T> {
                 }
             }
         }
-        
+
         public boolean hasPathTo(T target) {
             return marked.contains(target);
         }
-        
+
         public List<T> pathTo(T target) {
             if (!hasPathTo(target)) {
                 return new ArrayList<T>();
@@ -79,15 +79,15 @@ public class DirectedGraph<T> {
             return paths;
         }
     }
-    
+
     public static class ShortestPath<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, T> edgeTo = new HashMap<>();
-        
+
         public ShortestPath(DirectedGraph<T> graph, T source) {
             bfs(graph, source);
         }
-        
+
         private void bfs(DirectedGraph<T> graph, T source) {
             T s = source;
             LinkedList<T> nodes = new LinkedList<>();
@@ -106,11 +106,11 @@ public class DirectedGraph<T> {
                 s = nodes.removeFirst();
             }
         }
-        
+
         public boolean hasPathTo(T target) {
             return marked.contains(target);
         }
-        
+
         public List<T> pathTo(T target) {
             if (!hasPathTo(target)) {
                 return new ArrayList<T>();
@@ -125,12 +125,12 @@ public class DirectedGraph<T> {
             return paths;
         }
     }
-    
+
     public static class CycleDetector<T> {
         private boolean hasCycle = false;
         private Set<T> marked = new HashSet<>();
         private Map<T, Boolean> onStack = new HashMap<>();
-        
+
         public CycleDetector(DirectedGraph<T> graph) {
             for (T t : graph.getVertices()) {
                 onStack.put(t, false);
@@ -141,7 +141,7 @@ public class DirectedGraph<T> {
                 }
             }
         }
-        
+
         private void dfs(DirectedGraph<T> graph, T source) {
             marked.add(source);
             onStack.put(source, true);
@@ -156,16 +156,16 @@ public class DirectedGraph<T> {
             }
             onStack.put(source, false);
         }
-        
+
         public boolean hasCycle() {
             return hasCycle;
         }
     }
-    
+
     public static class TopologicalSort<T> {
         private Set<T> marked = new HashSet<>();
         private Stack<T> paths = new Stack<>();
-        
+
         public TopologicalSort(DirectedGraph<T> graph) {
             for (T v : graph.getVertices()) {
                 if (!marked.contains(v)) {
@@ -173,7 +173,7 @@ public class DirectedGraph<T> {
                 }
             }
         }
-    
+
         private void dfs(DirectedGraph<T> graph, T node) {
             marked.add(node);
             for (T adj : graph.adjacent(node)) {
@@ -183,7 +183,7 @@ public class DirectedGraph<T> {
             }
             paths.add(node);
         }
-        
+
         public List<T> getPaths() {
             List<T> p = new ArrayList<>();
             while (!paths.isEmpty()) {
@@ -192,13 +192,13 @@ public class DirectedGraph<T> {
             return p;
         }
     }
-    
+
     public static class StronglyConnectedComponent<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, Integer> groups = new HashMap<>();
-        private Map<Integer, List<T>> connectedComponents = new HashMap<>(); 
+        private Map<Integer, List<T>> connectedComponents = new HashMap<>();
         private int numGroups;
-        
+
         public StronglyConnectedComponent(DirectedGraph<T> graph) {
             DirectedGraph<T> reversedGraph = reverse(graph);
             int group = 0;
@@ -209,7 +209,7 @@ public class DirectedGraph<T> {
             }
             numGroups = group;
         }
-        
+
         /*
          * Reverse the direction of the graph
          */
@@ -223,7 +223,7 @@ public class DirectedGraph<T> {
             }
             return reversedGraph;
         }
-        
+
         /*
          * Gets the vertices in reverse post order
          */
@@ -241,9 +241,9 @@ public class DirectedGraph<T> {
             }
             return paths;
         }
-        
+
         private void reversedDfs(DirectedGraph<T> graph, T source,
-            Set<T> reversedMarked, Stack<T> reversedVertices) {
+                                 Set<T> reversedMarked, Stack<T> reversedVertices) {
             reversedMarked.add(source);
             for (T adj : graph.adjacent(source)) {
                 if (!reversedMarked.contains(adj)) {
@@ -252,7 +252,7 @@ public class DirectedGraph<T> {
             }
             reversedVertices.add(source);
         }
-        
+
         private void dfs(DirectedGraph<T> graph, T source, int group) {
             marked.add(source);
             groups.put(source, group);
@@ -266,11 +266,11 @@ public class DirectedGraph<T> {
                 }
             }
         }
-        
+
         public boolean stronglyConnected(T node1, T node2) {
             return groups.get(node1) == groups.get(node2);
         }
-        
+
         public List<List<T>> getStronglyConnectedComponents() {
             List<List<T>> result = new ArrayList<>();
             for (int i = 0; i < numGroups; i++) {

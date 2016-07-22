@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class QuickFind<T> {
     private Map<T, T> map = new HashMap<>();
-    
+
     public void union(T a, T b) {
         if (!map.containsKey(a)) {
             map.put(a, a);
@@ -22,11 +22,11 @@ public class QuickFind<T> {
             }
         }
     }
-    
+
     private T find(T a) {
         return map.get(a);
     }
-    
+
     public boolean connected(T a, T b) {
         T x = find(a);
         T y = find(b);

@@ -12,30 +12,30 @@ import java.util.Set;
 public class DirectedWeightedGraph<T> {
     private Map<T, Set<Edge<T>>> edges = new HashMap<>();
     private Set<T> vertices = new HashSet<>();
-    
+
     public static class Edge<T> {
         private double weight;
         private T t1;
         private T t2;
-        
+
         public Edge(T t1, T t2, double weight) {
             this.t1 = t1;
             this.t2 = t2;
             this.weight = weight;
         }
-        
+
         public double getWeight() {
             return weight;
         }
-        
+
         public T from() {
             return t1;
         }
-        
+
         public T to() {
             return t2;
         }
-        
+
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -82,18 +82,18 @@ public class DirectedWeightedGraph<T> {
             return sb.toString();
         }
     }
-    
+
     public Set<T> getVertices() {
         return Collections.unmodifiableSet(vertices);
     }
-    
+
     public Set<Edge<T>> adjacent(T t) {
         if (!edges.containsKey(t)) {
             return new HashSet<>();
         }
         return edges.get(t);
     }
-    
+
     public void add(Edge<T> edge) {
         if (!edges.containsKey(edge.from())) {
             Set<Edge<T>> newSet = new HashSet<>();
@@ -102,16 +102,16 @@ public class DirectedWeightedGraph<T> {
         } else {
             edges.get(edge.from()).add(edge);
         }
-        
+
         if (!vertices.contains(edge.from())) {
             vertices.add(edge.from());
         }
-        
+
         if (!vertices.contains(edge.to())) {
             vertices.add(edge.to());
         }
     }
-    
+
     /*
      * Dijkstra's algorithm
      */
@@ -119,12 +119,12 @@ public class DirectedWeightedGraph<T> {
         private static class DistTo<T> implements Comparable<DistTo<T>> {
             private T t;
             private double weight;
-     
+
             public DistTo(T t, double weight) {
                 this.t = t;
                 this.weight = weight;
             }
-            
+
             @Override
             public int hashCode() {
                 final int prime = 31;
@@ -162,23 +162,23 @@ public class DirectedWeightedGraph<T> {
                 return Double.valueOf(weight).compareTo(d.weight);
             }
         }
-        
+
         private Map<T, Edge<T>> edgeTo = new HashMap<>();
         private Map<T, Double> distTo = new HashMap<>();
         private PriorityQueue<DistTo<T>> pq = new PriorityQueue<>();
-        
+
         public ShortestPath(DirectedWeightedGraph<T> graph, T source) {
             for (T t : graph.getVertices()) {
                 distTo.put(t, Double.POSITIVE_INFINITY);
             }
             distTo.put(source, 0.0);
-            
+
             pq.add(new DistTo<>(source, 0.0));
             while (!pq.isEmpty()) {
                 relax(graph, pq.remove().t);
             }
         }
-        
+
         private void relax(DirectedWeightedGraph<T> graph, T from) {
             for (Edge<T> e : graph.adjacent(from)) {
                 T to = e.to();
@@ -194,18 +194,18 @@ public class DirectedWeightedGraph<T> {
                 }
             }
         }
-        
+
         public double distTo(T target) {
             if (!hasPathTo(target)) {
                 return 0.0;
             }
             return distTo.get(target);
         }
-        
+
         public boolean hasPathTo(T target) {
             return edgeTo.containsKey(target);
         }
-        
+
         public List<T> pathTo(T target) {
             List<T> paths = new ArrayList<>();
             if (!hasPathTo(target)) {

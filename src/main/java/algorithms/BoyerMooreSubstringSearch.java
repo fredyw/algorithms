@@ -3,7 +3,7 @@ package algorithms;
 
 public class BoyerMooreSubstringSearch {
     private static final int R = 256; // assume 256 characters.
-    
+
     public static int substring(String pattern, String text) {
         int[] right = new int[R];
         for (int i = 0; i < R; i++) {
@@ -17,11 +17,11 @@ public class BoyerMooreSubstringSearch {
             right[pattern.charAt(i)] = i; // rightmost position
         }
         int skip = 0;
-        for (int i = 0; i <= text.length()-pattern.length(); i += skip) {
+        for (int i = 0; i <= text.length() - pattern.length(); i += skip) {
             skip = 0;
-            for (int j = pattern.length()-1; j >= 0; j--) {
-                if (pattern.charAt(j) != text.charAt(i+j)) {
-                    skip = j - right[text.charAt(i+j)];
+            for (int j = pattern.length() - 1; j >= 0; j--) {
+                if (pattern.charAt(j) != text.charAt(i + j)) {
+                    skip = j - right[text.charAt(i + j)];
                     if (skip < 1) {
                         skip = 1;
                     }

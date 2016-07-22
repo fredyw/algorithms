@@ -12,13 +12,13 @@ import java.util.Set;
 
 public class UndirectedWeightedGraph<T> {
     private Map<T, Set<Edge<T>>> vertices = new HashMap<>();
-    
+
     public static class Edge<T> implements Comparable<T> {
         private double weight;
         private T t1;
         private T t2;
         private double flow;
-        
+
         public Edge(T t1, T t2, double weight) {
             this.t1 = t1;
             this.t2 = t2;
@@ -28,18 +28,18 @@ public class UndirectedWeightedGraph<T> {
         public T either() {
             return t1;
         }
-        
+
         public T other(T t) {
             if (!t.equals(t1)) {
                 return t1;
             }
             return t2;
         }
-        
+
         public double getWeight() {
             return weight;
         }
-        
+
         public double residualCapacityTo(T vertex) {
             if (vertex.equals(t1)) {
                 return flow;
@@ -48,7 +48,7 @@ public class UndirectedWeightedGraph<T> {
             }
             throw new IllegalArgumentException();
         }
-        
+
         public void addResidualFlowTo(T vertex, double delta) {
             if (vertex.equals(t1)) {
                 flow -= delta;
@@ -56,7 +56,7 @@ public class UndirectedWeightedGraph<T> {
                 flow += delta;
             }
         }
-        
+
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -109,18 +109,18 @@ public class UndirectedWeightedGraph<T> {
             return builder.toString();
         }
     }
-    
+
     public Set<T> getVertices() {
         return vertices.keySet();
     }
-    
+
     public Set<Edge<T>> adjacent(T t) {
         if (!vertices.containsKey(t)) {
             return new HashSet<>();
         }
         return vertices.get(t);
     }
-    
+
     public void add(Edge<T> edge) {
         T t1 = edge.either();
         if (!vertices.containsKey(t1)) {
@@ -130,7 +130,7 @@ public class UndirectedWeightedGraph<T> {
         } else {
             vertices.get(t1).add(edge);
         }
-        
+
         T t2 = edge.other(t1);
         if (!vertices.containsKey(t2)) {
             Set<Edge<T>> newSet = new HashSet<>();
@@ -140,7 +140,7 @@ public class UndirectedWeightedGraph<T> {
             vertices.get(t2).add(edge);
         }
     }
-    
+
     /*
      * MST using Prim's algorithm 
      */
@@ -148,7 +148,7 @@ public class UndirectedWeightedGraph<T> {
         private Set<T> marked = new HashSet<>();
         private PriorityQueue<Edge<T>> pq = new PriorityQueue<>();
         private List<Edge<T>> mst = new ArrayList<>();
-        
+
         public PrimMinimumSpanningTree(UndirectedWeightedGraph<T> graph) {
             if (graph.getVertices().size() == 0) {
                 return;
@@ -171,7 +171,7 @@ public class UndirectedWeightedGraph<T> {
                 }
             }
         }
-        
+
         private void visit(UndirectedWeightedGraph<T> graph, T t) {
             marked.add(t);
             for (Edge<T> e : graph.adjacent(t)) {
@@ -180,11 +180,11 @@ public class UndirectedWeightedGraph<T> {
                 }
             }
         }
-        
+
         public List<Edge<T>> getPaths() {
             return mst;
         }
-        
+
         public double getWeight() {
             double weight = 0;
             for (Edge<T> e : mst) {
@@ -193,7 +193,7 @@ public class UndirectedWeightedGraph<T> {
             return weight;
         }
     }
-    
+
     /*
      * MST using Kruskal's algorithm
      */
@@ -206,7 +206,7 @@ public class UndirectedWeightedGraph<T> {
             for (Edge<T> edge : edges) {
                 pq.add(edge);
             }
-            
+
             QuickWeightedUnion<T> unionFind = new QuickWeightedUnion<>();
             while (!pq.isEmpty()) {
                 Edge<T> edge = pq.remove(); // remove the minimum
@@ -219,7 +219,7 @@ public class UndirectedWeightedGraph<T> {
                 }
             }
         }
-        
+
         private Set<Edge<T>> getEdges(UndirectedWeightedGraph<T> graph) {
             Set<Edge<T>> edges = new HashSet<>();
             for (T vertex : graph.getVertices()) {
@@ -227,11 +227,11 @@ public class UndirectedWeightedGraph<T> {
             }
             return edges;
         }
-        
+
         public List<Edge<T>> getPaths() {
             return mst;
         }
-        
+
         public double getWeight() {
             double weight = 0;
             for (Edge<T> e : mst) {
@@ -240,7 +240,7 @@ public class UndirectedWeightedGraph<T> {
             return weight;
         }
     }
-    
+
     /*
      * Dijkstra's algorithm
      */
@@ -248,12 +248,12 @@ public class UndirectedWeightedGraph<T> {
         private static class DistTo<T> implements Comparable<DistTo<T>> {
             private T t;
             private double weight;
-     
+
             public DistTo(T t, double weight) {
                 this.t = t;
                 this.weight = weight;
             }
-            
+
             @Override
             public int hashCode() {
                 final int prime = 31;
@@ -291,23 +291,23 @@ public class UndirectedWeightedGraph<T> {
                 return Double.valueOf(weight).compareTo(d.weight);
             }
         }
-        
+
         private Map<T, Edge<T>> edgeTo = new HashMap<>();
         private Map<T, Double> distTo = new HashMap<>();
         private PriorityQueue<DistTo<T>> pq = new PriorityQueue<>();
-        
+
         public ShortestPath(UndirectedWeightedGraph<T> graph, T source) {
             for (T t : graph.getVertices()) {
                 distTo.put(t, Double.POSITIVE_INFINITY);
             }
             distTo.put(source, 0.0);
-            
+
             pq.add(new DistTo<>(source, 0.0));
             while (!pq.isEmpty()) {
                 relax(graph, pq.remove().t);
             }
         }
-        
+
         private void relax(UndirectedWeightedGraph<T> graph, T from) {
             for (Edge<T> e : graph.adjacent(from)) {
                 T to = e.other(e.either());
@@ -323,18 +323,18 @@ public class UndirectedWeightedGraph<T> {
                 }
             }
         }
-        
+
         public double distTo(T target) {
             if (!hasPathTo(target)) {
                 return 0.0;
             }
             return distTo.get(target);
         }
-        
+
         public boolean hasPathTo(T target) {
             return edgeTo.containsKey(target);
         }
-        
+
         public List<T> pathTo(T target) {
             List<T> paths = new ArrayList<>();
             if (!hasPathTo(target)) {
@@ -349,7 +349,7 @@ public class UndirectedWeightedGraph<T> {
             return paths;
         }
     }
-    
+
     /*
      * Ford Fulkerson's algorithm
      */
@@ -357,7 +357,7 @@ public class UndirectedWeightedGraph<T> {
         private double maxFlow;
         private Map<T, Edge<T>> edgeTo = new HashMap<>();
         private Set<T> marked = new HashSet<>();
-        
+
         public MaximumFlow(UndirectedWeightedGraph<T> graph, T source, T dest) {
             while (hasAugmentingPath(graph, source, dest)) {
                 // compute bottleneck capacity
@@ -368,12 +368,12 @@ public class UndirectedWeightedGraph<T> {
 
                 // augment flow
                 for (T v = dest; !v.equals(source); v = edgeTo.get(v).other(v)) {
-                    edgeTo.get(v).addResidualFlowTo(v, bottleneck); 
+                    edgeTo.get(v).addResidualFlowTo(v, bottleneck);
                 }
                 maxFlow += bottleneck;
             }
         }
-        
+
         private boolean hasAugmentingPath(UndirectedWeightedGraph<T> graph, T source, T dest) {
             edgeTo = new HashMap<>();
             marked = new HashSet<>();
@@ -399,7 +399,7 @@ public class UndirectedWeightedGraph<T> {
             // is there an augmenting path?
             return marked.contains(dest);
         }
-        
+
         public double getMaximumFlow() {
             return maxFlow;
         }

@@ -6,21 +6,21 @@ public class HashTable<Key, Value> {
     private class KeyValue {
         private Key key;
         private Value value;
-        
+
         public KeyValue(Key key, Value value) {
             this.key = key;
             this.value = value;
         }
     }
-    
+
     private LinkedList<KeyValue>[] keyValues;
     private int n;
     private int size;
-    
+
     public HashTable() {
         this(997);
     }
-    
+
     @SuppressWarnings("unchecked")
     private HashTable(int n) {
         this.n = n;
@@ -29,7 +29,7 @@ public class HashTable<Key, Value> {
             keyValues[i] = new LinkedList<KeyValue>();
         }
     }
-    
+
     public void put(Key key, Value value) {
         LinkedList<KeyValue> ll = keyValues[getIndex(key)];
         for (KeyValue kv : ll) {
@@ -41,7 +41,7 @@ public class HashTable<Key, Value> {
         size++;
         ll.addFirst(new KeyValue(key, value));
     }
-    
+
     public Value get(Key key) {
         LinkedList<KeyValue> ll = keyValues[getIndex(key)];
         for (KeyValue kv : ll) {
@@ -51,11 +51,11 @@ public class HashTable<Key, Value> {
         }
         return null;
     }
-    
+
     private int getIndex(Key key) {
         return (key.hashCode() & 0x7fffffff) % n;
     }
-    
+
     public int getSize() {
         return size;
     }

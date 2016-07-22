@@ -1,13 +1,13 @@
 package algorithms;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class QuickSelectTest {
     @Test
     public void test() {
-        Integer[] array = new Integer[] {6, 3, 9, 2, 1, 5, 8, 4, 7};
+        Integer[] array = new Integer[]{6, 3, 9, 2, 1, 5, 8, 4, 7};
         assertEquals(1, QuickSelect.select(array, 1).intValue());
         assertEquals(2, QuickSelect.select(array, 2).intValue());
         assertEquals(3, QuickSelect.select(array, 3).intValue());

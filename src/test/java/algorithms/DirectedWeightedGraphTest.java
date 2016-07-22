@@ -1,13 +1,13 @@
 package algorithms;
 
-import static org.junit.Assert.*;
+import algorithms.DirectedWeightedGraph.Edge;
+import algorithms.DirectedWeightedGraph.ShortestPath;
+import org.junit.Test;
 
 import java.util.Set;
 
-import org.junit.Test;
-
-import algorithms.DirectedWeightedGraph.Edge;
-import algorithms.DirectedWeightedGraph.ShortestPath;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DirectedWeightedGraphTest {
     @Test
@@ -19,18 +19,18 @@ public class DirectedWeightedGraphTest {
         graph.add(new Edge<>(5, 3, 0));
         graph.add(new Edge<>(6, 1, 0));
         graph.add(new Edge<>(3, 7, 0));
-        
+
         assertEquals(7, graph.getVertices().size());
         assertTrue(graph.adjacent(10).isEmpty());
         Set<Edge<Integer>> adj = graph.adjacent(1);
         assertEquals(1, adj.size());
         assertTrue(adj.contains(new Edge<>(1, 2, 0)));
-        
+
         adj = graph.adjacent(3);
         assertEquals(1, adj.size());
         assertTrue(adj.contains(new Edge<>(3, 7, 0)));
     }
-    
+
     @Test
     public void testShortestPath() {
         DirectedWeightedGraph<Integer> graph = new DirectedWeightedGraph<>();
@@ -42,7 +42,7 @@ public class DirectedWeightedGraphTest {
         graph.add(new Edge<>(4, 5, 2));
         graph.add(new Edge<>(5, 6, 3));
         graph.add(new Edge<>(6, 7, 9));
-        
+
         ShortestPath<Integer> sp = new ShortestPath<Integer>(graph, 1);
         assertEquals("[7, 4, 1]", sp.pathTo(7).toString());
         assertEquals(9, sp.distTo(7), 0);

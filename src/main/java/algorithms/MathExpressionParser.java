@@ -5,7 +5,7 @@ import java.util.Stack;
 public class MathExpressionParser {
     private Stack<Integer> operands = new Stack<>();
     private Stack<Character> operators = new Stack<>();
-    
+
     public int evaluate(String exp) {
         StringBuilder num = new StringBuilder();
         for (int i = 0; i < exp.length(); i++) {

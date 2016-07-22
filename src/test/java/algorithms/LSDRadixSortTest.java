@@ -1,13 +1,13 @@
 package algorithms;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class LSDRadixSortTest {
     @Test
     public void testSort() {
-        String[] strings = new String[] {
+        String[] strings = new String[]{
             "3ABC",
             "1DEF",
             "4XYZ",
@@ -17,7 +17,7 @@ public class LSDRadixSortTest {
             "1ABC"
         };
         LSDRadixSort.sort(strings, 4, 256);
-        
+
         assertEquals("1ABC", strings[0]);
         assertEquals("1DEF", strings[1]);
         assertEquals("2ABC", strings[2]);

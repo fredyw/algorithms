@@ -11,9 +11,9 @@ public class CountingSort {
             count[aux[i]] += 1;
         }
         for (int i = 1; i < count.length; i++) {
-            count[i] = count[i-1] + count[i];
+            count[i] = count[i - 1] + count[i];
         }
-        for (int i = aux.length-1; i >= 0; i--) {
+        for (int i = aux.length - 1; i >= 0; i--) {
             int val = aux[i];
             count[val]--;
             int idx = count[val];

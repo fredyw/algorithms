@@ -6,7 +6,7 @@ public class SelectionSort {
         array[i] = array[j];
         array[j] = tmp;
     }
-    
+
     public static <T extends Comparable<T>> void sort(T[] array) {
         for (int i = 0; i < array.length; i++) {
             int min = -1;
