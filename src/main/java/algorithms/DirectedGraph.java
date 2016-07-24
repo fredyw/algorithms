@@ -190,6 +190,9 @@ public class DirectedGraph<T> {
         }
     }
 
+    /*
+     * Using Kosaraju-Sharir's algorithm
+     */
     public static class StronglyConnectedComponent<T> {
         private Set<T> marked = new HashSet<>();
         private Map<T, Integer> groups = new HashMap<>();
