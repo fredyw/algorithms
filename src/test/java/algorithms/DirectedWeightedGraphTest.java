@@ -43,7 +43,7 @@ public class DirectedWeightedGraphTest {
         graph.add(new Edge<>(5, 6, 3));
         graph.add(new Edge<>(6, 7, 9));
 
-        ShortestPath<Integer> sp = new ShortestPath<Integer>(graph, 1);
+        ShortestPath<Integer> sp = new ShortestPath<>(graph, 1);
         assertEquals("[7, 4, 1]", sp.pathTo(7).toString());
         assertEquals(9, sp.distTo(7), 0);
         assertEquals("[6, 5, 4, 1]", sp.pathTo(6).toString());

@@ -129,7 +129,7 @@ public class UndirectedWeightedGraphTest {
         graph.add(new Edge<>(3, 5, 20));
         graph.add(new Edge<>(4, 5, 4));
 
-        MaximumFlow<Integer> maxFlow = new MaximumFlow<Integer>(graph, 0, 5);
+        MaximumFlow<Integer> maxFlow = new MaximumFlow<>(graph, 0, 5);
         assertEquals(23.0, maxFlow.getMaximumFlow(), 0);
     }
 }

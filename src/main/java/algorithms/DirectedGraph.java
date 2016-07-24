@@ -67,7 +67,7 @@ public class DirectedGraph<T> {
 
         public List<T> pathTo(T target) {
             if (!hasPathTo(target)) {
-                return new ArrayList<T>();
+                return new ArrayList<>();
             }
             List<T> paths = new ArrayList<>();
             paths.add(target);
@@ -113,7 +113,7 @@ public class DirectedGraph<T> {
 
         public List<T> pathTo(T target) {
             if (!hasPathTo(target)) {
-                return new ArrayList<T>();
+                return new ArrayList<>();
             }
             List<T> paths = new ArrayList<>();
             paths.add(target);
@@ -257,7 +257,7 @@ public class DirectedGraph<T> {
             marked.add(source);
             groups.put(source, group);
             if (!connectedComponents.containsKey(group)) {
-                connectedComponents.put(group, new ArrayList<T>());
+                connectedComponents.put(group, new ArrayList<>());
             }
             connectedComponents.get(group).add(source);
             for (T t : graph.adjacent(source)) {

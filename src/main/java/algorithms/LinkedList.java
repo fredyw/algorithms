@@ -15,11 +15,11 @@ public class LinkedList<T> {
 
     public void addFront(T item) {
         if (first == null) {
-            first = new Node<T>(item);
+            first = new Node<>(item);
             last = first;
         } else {
             Node<T> oldFirst = first;
-            first = new Node<T>(item);
+            first = new Node<>(item);
             first.next = oldFirst;
         }
     }
@@ -35,10 +35,10 @@ public class LinkedList<T> {
 
     public void addBack(T item) {
         if (last == null) {
-            first = new Node<T>(item);
+            first = new Node<>(item);
             last = first;
         } else {
-            last.next = new Node<T>(item);
+            last.next = new Node<>(item);
             last = last.next;
         }
     }

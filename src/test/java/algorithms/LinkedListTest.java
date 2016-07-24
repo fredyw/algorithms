@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNull;
 public class LinkedListTest {
     @Test
     public void test1() {
-        LinkedList<Integer> ll = new LinkedList<Integer>();
+        LinkedList<Integer> ll = new LinkedList<>();
         ll.addFront(1);
         ll.addFront(2);
         ll.addBack(3);
@@ -22,7 +22,7 @@ public class LinkedListTest {
 
     @Test
     public void test2() {
-        LinkedList<Integer> ll = new LinkedList<Integer>();
+        LinkedList<Integer> ll = new LinkedList<>();
         ll.addBack(1);
         ll.addBack(2);
         ll.addFront(3);
