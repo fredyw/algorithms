@@ -156,5 +156,7 @@ public class DirectedGraphTest {
         assertEquals("[11, 12, 9, 10]", groups.get(2).toString());
         assertEquals("[6, 8]", groups.get(3).toString());
         assertEquals("[7]", groups.get(4).toString());
+        assertTrue(scc.stronglyConnected(0, 5));
+        assertFalse(scc.stronglyConnected(0, 1));
     }
 }
