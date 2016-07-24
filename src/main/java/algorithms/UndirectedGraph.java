@@ -223,7 +223,7 @@ public class UndirectedGraph<T> {
             }
         }
 
-        public boolean isBipartitie() {
+        public boolean isBipartite() {
             return bipartite;
         }
     }

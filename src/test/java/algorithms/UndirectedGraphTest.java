@@ -89,7 +89,7 @@ public class UndirectedGraphTest {
     }
 
     @Test
-    public void testConnectedComponenent() {
+    public void testConnectedComponent() {
         UndirectedGraph<Integer> graph = new UndirectedGraph<>();
         graph.add(0, 6);
         graph.add(0, 2);
@@ -110,6 +110,8 @@ public class UndirectedGraphTest {
         assertEquals("[0, 1, 2, 5, 3, 4, 6]", cc.get(0).toString());
         assertEquals("[7, 8]", cc.get(1).toString());
         assertEquals("[9, 10, 11, 12]", cc.get(2).toString());
+        assertTrue(dfs.connected(0, 1));
+        assertFalse(dfs.connected(0, 7));
     }
 
     @Test
@@ -144,13 +146,13 @@ public class UndirectedGraphTest {
         graph.add(5, 6);
         graph.add(5, 9);
         BipartiteDetector<Integer> bd = new BipartiteDetector<>(graph);
-        assertTrue(bd.isBipartitie());
+        assertTrue(bd.isBipartite());
 
         graph = new UndirectedGraph<>();
         graph.add(1, 2);
         graph.add(1, 3);
         graph.add(3, 2);
         bd = new BipartiteDetector<>(graph);
-        assertFalse(bd.isBipartitie());
+        assertFalse(bd.isBipartite());
     }
 }
