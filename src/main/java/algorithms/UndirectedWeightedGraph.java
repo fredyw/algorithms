@@ -46,7 +46,7 @@ public class UndirectedWeightedGraph<T> {
             } else if (vertex.equals(t2)) {
                 return weight - flow;
             }
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid vertex: " + vertex);
         }
 
         public void addResidualFlowTo(T vertex, double delta) {
