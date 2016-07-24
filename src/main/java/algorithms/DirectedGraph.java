@@ -101,9 +101,6 @@ public class DirectedGraph<T> {
                         edgeTo.put(adj, s);
                     }
                 }
-                if (nodes.size() == 0) {
-                    break;
-                }
             }
         }
 
