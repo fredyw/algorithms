@@ -172,6 +172,9 @@ public class UndirectedWeightedGraph<T> {
             }
         }
 
+        /*
+         * This method visits all adjacent edges from t and add them to priority queue.
+         */
         private void visit(UndirectedWeightedGraph<T> graph, T t) {
             marked.add(t);
             for (Edge<T> e : graph.adjacent(t)) {
