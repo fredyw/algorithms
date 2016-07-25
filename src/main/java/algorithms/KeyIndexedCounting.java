@@ -63,7 +63,7 @@ public class KeyIndexedCounting {
         // Compute frequency counts.
         for (int i = 0; i < elements.length; i++) {
             int newIdx = elements[i].value + 1;
-            count[newIdx] += 1;
+            count[newIdx]++;
         }
 
         // Transform counts to indices.

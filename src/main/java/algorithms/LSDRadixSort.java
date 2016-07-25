@@ -13,7 +13,7 @@ public class LSDRadixSort {
                 count[newIdx]++;
             }
 
-            // transform counts to indicies
+            // transform counts to indices
             for (int j = 1; j < numCharacters; j++) {
                 count[j] += count[j - 1];
             }
