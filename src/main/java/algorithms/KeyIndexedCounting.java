@@ -60,15 +60,18 @@ public class KeyIndexedCounting {
         Element[] aux = new Element[elements.length];
         int[] count = new int[numValues];
 
+        // Compute frequency counts.
         for (int i = 0; i < elements.length; i++) {
             int newIdx = elements[i].value + 1;
             count[newIdx] += 1;
         }
 
+        // Transform counts to indices.
         for (int i = 1; i < numValues; i++) {
             count[i] += count[i - 1];
         }
 
+        // Distribute the data.
         for (int i = 0; i < elements.length; i++) {
             int value = elements[i].value;
             int idx = count[value];
@@ -77,6 +80,7 @@ public class KeyIndexedCounting {
             count[value]++;
         }
 
+        // Copy back.
         for (int i = 0; i < aux.length; i++) {
             elements[i] = aux[i];
         }
