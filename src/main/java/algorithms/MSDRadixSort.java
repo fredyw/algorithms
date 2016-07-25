@@ -29,7 +29,7 @@ public class MSDRadixSort {
             count[newIdx + 2]++;
         }
 
-        // transform counts to indicies
+        // transform counts to indices
         for (int i = 0; i < numCharacters + 1; i++) {
             count[i + 1] += count[i];
         }
