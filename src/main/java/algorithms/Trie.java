@@ -102,7 +102,7 @@ public class Trie<T> {
         if (idx == prefix.length() - 1) {
             // once we reach here, we've already found the node
             // the rest is just to traverse all the child nodes
-            traverse(node, prefix, prefix, keys);
+            traverse(node, prefix, keys);
             return;
         }
         idx++;
@@ -111,13 +111,13 @@ public class Trie<T> {
         keys(child, prefix, idx, keys);
     }
 
-    private void traverse(Node node, String prefix, String accu, Set<String> keys) {
+    private void traverse(Node node, String accu, Set<String> keys) {
         if (node.value != null) {
             keys.add(accu);
         }
 
         for (Map.Entry<Character, Node> e : node.children.entrySet()) {
-            traverse(e.getValue(), prefix, accu + e.getKey(), keys);
+            traverse(e.getValue(), accu + e.getKey(), keys);
         }
     }
 
