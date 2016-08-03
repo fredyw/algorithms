@@ -128,8 +128,9 @@ public class UndirectedGraphTest {
 
         graph = new UndirectedGraph<>();
         graph.add(1, 2);
-        graph.add(1, 3);
-        graph.add(3, 2);
+        graph.add(2, 3);
+        graph.add(3, 4);
+        graph.add(4, 1);
         cd = new CycleDetector<>(graph);
         assertTrue(cd.hasCycle());
     }
