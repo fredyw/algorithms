@@ -10,6 +10,10 @@ public class MergeSortTest {
         Integer[] array = new Integer[]{10, 1, 4, 2, 6, 7, 3, 5, 8, 9};
         MergeSort.sort(array);
         assertEquals("1 2 3 4 5 6 7 8 9 10", join(array, " "));
+
+        array = new Integer[]{10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+        MergeSort.sort(array);
+        assertEquals("1 2 3 4 5 6 7 8 9 10", join(array, " "));
     }
 
     private <T> String join(T[] array, String separator) {
@@ -26,11 +30,11 @@ public class MergeSortTest {
     @Test
     public void testMerge() {
         Integer[] a = new Integer[]{-1, 3, 5, 6, 7, 2, 4, 8, 9, -9};
-        MergeSort.merge(a, 1, 4, 8);
+        MergeSort.merge(a, 1, 4, 8, a.clone());
         assertEquals("-1 2 3 4 5 6 7 8 9 -9", join(a, " "));
 
         a = new Integer[]{-1, 2, 4, 8, 9, 3, 5, 6, 7, -9};
-        MergeSort.merge(a, 1, 4, 8);
+        MergeSort.merge(a, 1, 4, 8, a.clone());
         assertEquals("-1 2 3 4 5 6 7 8 9 -9", join(a, " "));
     }
 }
