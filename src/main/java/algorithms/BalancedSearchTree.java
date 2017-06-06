@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BalancedSearchTree<Key extends Comparable<Key>, Value> {
-    private static enum Color {
+    private enum Color {
         RED, BLACK
     }
 
