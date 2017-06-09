@@ -89,4 +89,24 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             values.add(node.value);
         }
     }
+
+    public Value ceiling(Key key) {
+        Node n = ceiling(root, key);
+        return n.value;
+    }
+
+    private Node ceiling(Node node, Key key) {
+        if (node == null) {
+            return null;
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            Node n = ceiling(node.left, key);
+            if (n == null) {
+                return node;
+            }
+            return n;
+        }
+        return ceiling(node.right, key);
+    }
 }

@@ -31,4 +31,35 @@ public class BinarySearchTreeTest {
 
         assertEquals(8, bst.getSize());
     }
+    
+    @Test
+    public void testCeiling() {
+        BinarySearchTree<Integer, Integer> bst = new BinarySearchTree();
+        bst.put(60, 60);
+        bst.put(30, 30);
+        bst.put(70, 70);
+        bst.put(10, 10);
+        bst.put(40, 40);
+        bst.put(80, 80);
+        bst.put(20, 20);
+        bst.put(50, 50);
+
+        int ceiling = bst.ceiling(31);
+        assertEquals(40, ceiling);
+
+        ceiling = bst.ceiling(69);
+        assertEquals(70, ceiling);
+
+        ceiling = bst.ceiling(30);
+        assertEquals(40, ceiling);
+
+        ceiling = bst.ceiling(10);
+        assertEquals(20, ceiling);
+
+        ceiling = bst.ceiling(9);
+        assertEquals(10, ceiling);
+
+        ceiling = bst.ceiling(11);
+        assertEquals(20, ceiling);
+    }
 }
