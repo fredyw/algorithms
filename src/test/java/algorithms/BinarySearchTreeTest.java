@@ -3,6 +3,7 @@ package algorithms;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class BinarySearchTreeTest {
     @Test
@@ -61,5 +62,38 @@ public class BinarySearchTreeTest {
 
         ceiling = bst.ceiling(11);
         assertEquals(20, ceiling);
+
+        assertNull(bst.ceiling(90));
+
+        assertNull(bst.ceiling(80));
+    }
+
+    @Test
+    public void testFloor() {
+        BinarySearchTree<Integer, Integer> bst = new BinarySearchTree();
+        bst.put(60, 60);
+        bst.put(30, 30);
+        bst.put(70, 70);
+        bst.put(10, 10);
+        bst.put(40, 40);
+        bst.put(80, 80);
+        bst.put(20, 20);
+        bst.put(50, 50);
+
+        int floor = bst.floor(31);
+        assertEquals(30, floor);
+
+        floor = bst.floor(69);
+        assertEquals(60, floor);
+
+        floor = bst.floor(30);
+        assertEquals(20, floor);
+
+        assertNull(bst.floor(10));
+
+        floor = bst.floor(11);
+        assertEquals(10, floor);
+
+        assertNull(bst.floor(9));
     }
 }

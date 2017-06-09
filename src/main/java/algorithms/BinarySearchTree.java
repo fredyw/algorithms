@@ -92,6 +92,9 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     public Value ceiling(Key key) {
         Node n = ceiling(root, key);
+        if (n == null) {
+            return null;
+        }
         return n.value;
     }
 
@@ -108,5 +111,28 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             return n;
         }
         return ceiling(node.right, key);
+    }
+
+    public Value floor(Key key) {
+        Node n = floor(root, key);
+        if (n == null) {
+            return null;
+        }
+        return n.value;
+    }
+
+    private Node floor(Node node, Key key) {
+        if (node == null) {
+            return null;
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp <= 0) {
+            return floor(node.left, key);
+        }
+        Node n = floor(node.right, key);
+        if (n == null) {
+            return node;
+        }
+        return n;
     }
 }
