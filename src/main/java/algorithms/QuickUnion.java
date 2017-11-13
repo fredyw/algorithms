@@ -36,6 +36,6 @@ public class QuickUnion<T> {
         if (x == null || y == null) {
             return false;
         }
-        return find(a).equals(find(b));
+        return x.equals(y);
     }
 }
