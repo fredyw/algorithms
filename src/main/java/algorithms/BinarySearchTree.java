@@ -103,7 +103,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             return null;
         }
         int cmp = key.compareTo(node.key);
-        if (cmp < 0) {
+        if (cmp < 0) { // key < node.val
             Node n = ceiling(node.left, key);
             if (n == null) {
                 return node;
@@ -126,7 +126,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             return null;
         }
         int cmp = key.compareTo(node.key);
-        if (cmp <= 0) {
+        if (cmp <= 0) { // key < node.val
             return floor(node.left, key);
         }
         Node n = floor(node.right, key);

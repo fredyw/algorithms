@@ -1,9 +1,15 @@
-bin
+# Eclipse
+bin/
 .classpath
 .project
-.settings
+.settings/
+
+# Gradle
 .gradle
-build
+build/
+
+# IntelliJ
 *.iml
 *.ipr
 *.iws
+.idea/
