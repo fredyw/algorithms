@@ -28,17 +28,17 @@ public class MergeSort {
         int lo2 = mid + 1;
         int hi2 = hi;
         while (lo1 <= hi1 && lo2 <= hi2) {
-            if (aux[lo1].compareTo((T) aux[lo2]) < 0) {
-                array[idx++] = (T) aux[lo1++];
+            if (aux[lo1].compareTo(aux[lo2]) < 0) {
+                array[idx++] = aux[lo1++];
             } else {
-                array[idx++] = (T) aux[lo2++];
+                array[idx++] = aux[lo2++];
             }
         }
         while (lo1 <= hi1) {
-            array[idx++] = (T) aux[lo1++];
+            array[idx++] = aux[lo1++];
         }
         while (lo2 <= hi2) {
-            array[idx++] = (T) aux[lo2++];
+            array[idx++] = aux[lo2++];
         }
     }
 }
