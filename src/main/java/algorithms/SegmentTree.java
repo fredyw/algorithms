@@ -19,6 +19,9 @@ public class SegmentTree<T> {
         build(array, tree, 0, array.length - 1, 0);
     }
 
+    // start -> start index of the array
+    // end -> end index of the array
+    // current -> index of the tree
     private T build(T[] array, T[] tree, int start, int end, int current) {
         if (start == end) {
             tree[current] = array[start];
