@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -58,42 +59,16 @@ public class UndirectedWeightedGraph<T> {
         }
 
         @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((t1 == null) ? 0 : t1.hashCode());
-            result = prime * result + ((t2 == null) ? 0 : t2.hashCode());
-            return result;
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Edge<?> edge = (Edge<?>) o;
+            return t1.equals(edge.t1) && t2.equals(edge.t2);
         }
 
-        @SuppressWarnings("unchecked")
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            Edge<T> other = (Edge<T>) obj;
-            if (t1 == null) {
-                if (other.t1 != null) {
-                    return false;
-                }
-            } else if (!t1.equals(other.t1)) {
-                return false;
-            }
-            if (t2 == null) {
-                if (other.t2 != null) {
-                    return false;
-                }
-            } else if (!t2.equals(other.t2)) {
-                return false;
-            }
-            return true;
+        public int hashCode() {
+            return Objects.hash(t1, t2);
         }
 
         @SuppressWarnings("unchecked")
@@ -258,36 +233,17 @@ public class UndirectedWeightedGraph<T> {
             }
 
             @Override
-            public int hashCode() {
-                final int prime = 31;
-                int result = 1;
-                result = prime * result + ((t == null) ? 0 : t.hashCode());
-                return result;
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                DistTo<?> distTo = (DistTo<?>) o;
+                return Double.compare(distTo.weight, weight) == 0 && t.equals(distTo.t);
             }
 
-            @SuppressWarnings("unchecked")
             @Override
-            public boolean equals(Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-                if (obj == null) {
-                    return false;
-                }
-                if (getClass() != obj.getClass()) {
-                    return false;
-                }
-                DistTo<T> other = (DistTo<T>) obj;
-                if (t == null) {
-                    if (other.t != null) {
-                        return false;
-                    }
-                } else if (!t.equals(other.t)) {
-                    return false;
-                }
-                return true;
+            public int hashCode() {
+                return Objects.hash(t, weight);
             }
-
 
             @Override
             public int compareTo(DistTo<T> d) {
@@ -319,9 +275,6 @@ public class UndirectedWeightedGraph<T> {
                     distTo.put(to, newWeight);
                     edgeTo.put(to, e);
                     DistTo<T> dt = new DistTo<>(to, newWeight);
-                    if (pq.contains(dt)) {
-                        pq.remove(dt);
-                    }
                     pq.add(dt);
                 }
             }
