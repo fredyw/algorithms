@@ -181,15 +181,11 @@ public class DirectedWeightedGraph<T> {
 
         private void relax(DirectedWeightedGraph<T> graph, T from) {
             for (Edge<T> e : graph.adjacent(from)) {
-                T to = e.to();
-                if (distTo.get(to) > distTo.get(from) + e.weight) {
+                if (distTo.get(e.to()) > distTo.get(from) + e.weight) {
                     double newWeight = distTo.get(from) + e.weight;
-                    distTo.put(to, newWeight);
-                    edgeTo.put(to, e);
-                    DistTo<T> dt = new DistTo<>(to, newWeight);
-                    if (pq.contains(dt)) {
-                        pq.remove(dt);
-                    }
+                    distTo.put(e.to(), newWeight);
+                    edgeTo.put(e.to(), e);
+                    DistTo<T> dt = new DistTo<>(e.to(), newWeight);
                     pq.add(dt);
                 }
             }
