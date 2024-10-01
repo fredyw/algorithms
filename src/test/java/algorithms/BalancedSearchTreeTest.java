@@ -18,14 +18,14 @@ public class BalancedSearchTreeTest {
         bst.put("f", 7);
         bst.put("g", 8);
 
-        assertEquals(new Integer(1), bst.get("e"));
-        assertEquals(new Integer(2), bst.get("b"));
-        assertEquals(new Integer(30), bst.get("c"));
-        assertEquals(new Integer(4), bst.get("d"));
-        assertEquals(new Integer(5), bst.get("a"));
-        assertEquals(new Integer(6), bst.get("h"));
-        assertEquals(new Integer(7), bst.get("f"));
-        assertEquals(new Integer(8), bst.get("g"));
+        assertEquals(Integer.valueOf(1), bst.get("e"));
+        assertEquals(Integer.valueOf(2), bst.get("b"));
+        assertEquals(Integer.valueOf(30), bst.get("c"));
+        assertEquals(Integer.valueOf(4), bst.get("d"));
+        assertEquals(Integer.valueOf(5), bst.get("a"));
+        assertEquals(Integer.valueOf(6), bst.get("h"));
+        assertEquals(Integer.valueOf(7), bst.get("f"));
+        assertEquals(Integer.valueOf(8), bst.get("g"));
 
         assertEquals("[4, 30, 7, 1]", bst.get("c", "f").toString());
 

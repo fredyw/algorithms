@@ -18,10 +18,10 @@ public class TrieTest {
         trie.put("abd", 2);
 
         assertEquals(4, trie.getSize());
-        assertEquals(new Integer(1), trie.get("abc"));
-        assertEquals(new Integer(2), trie.get("abd"));
-        assertEquals(new Integer(3), trie.get("abde"));
-        assertEquals(new Integer(4), trie.get("abdfg"));
+        assertEquals(Integer.valueOf(1), trie.get("abc"));
+        assertEquals(Integer.valueOf(2), trie.get("abd"));
+        assertEquals(Integer.valueOf(3), trie.get("abde"));
+        assertEquals(Integer.valueOf(4), trie.get("abdfg"));
         assertNull(trie.get("abf"));
         assertNull(trie.get("abdf"));
         assertNull(trie.get("xyz"));

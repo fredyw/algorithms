@@ -21,14 +21,14 @@ public class HashTableTest {
 
         assertEquals(8, ht.getSize());
 
-        assertEquals(new Integer(1), ht.get("e"));
-        assertEquals(new Integer(2), ht.get("b"));
-        assertEquals(new Integer(30), ht.get("c"));
-        assertEquals(new Integer(4), ht.get("d"));
-        assertEquals(new Integer(5), ht.get("a"));
-        assertEquals(new Integer(6), ht.get("h"));
-        assertEquals(new Integer(7), ht.get("f"));
-        assertEquals(new Integer(8), ht.get("g"));
+        assertEquals(Integer.valueOf(1), ht.get("e"));
+        assertEquals(Integer.valueOf(2), ht.get("b"));
+        assertEquals(Integer.valueOf(30), ht.get("c"));
+        assertEquals(Integer.valueOf(4), ht.get("d"));
+        assertEquals(Integer.valueOf(5), ht.get("a"));
+        assertEquals(Integer.valueOf(6), ht.get("h"));
+        assertEquals(Integer.valueOf(7), ht.get("f"));
+        assertEquals(Integer.valueOf(8), ht.get("g"));
         assertNull(ht.get("i"));
     }
 }
